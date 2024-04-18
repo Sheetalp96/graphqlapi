@@ -1,0 +1,4515 @@
+{
+	"info": {
+		"_postman_id": "19ab77ef-155c-4187-9d35-11cfdc4e4b73",
+		"name": "Bimsense",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "20779503",
+		"_collection_link": "https://restless-trinity-890342.postman.co/workspace/Practise~fd78733a-4cb5-4751-92fe-e20e7bee2536/collection/20779503-19ab77ef-155c-4187-9d35-11cfdc4e4b73?action=share&source=collection_link&creator=20779503"
+	},
+	"item": [
+		{
+			"name": "Overview of tabs",
+			"item": [
+				{
+					"name": "Supply Chain",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"value in search box\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.data.searchOrganisations.items).have.length(35);\r",
+									"    console.log(jsonData.data.searchOrganisations.items.length);\r",
+									"});\r",
+									"pm.test(\"data \", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.searchOrganisations.items[35]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"check property have name\",function ()\r",
+									"{\r",
+									"    var jsonData =pm.response.json();\r",
+									"    pm.expect(jsonData.data.searchOrganisations.items[20]).haveOwnProperty(\"name\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Searched Data\", function()\r",
+									"{  var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.searchOrganisations.items);\r",
+									"\r",
+									"    // pm.expect(jsonData.data.searchOrganisations.items[1]).to.include(\"title\");\r",
+									"    console.log(Object.keys(jsonData.data.searchOrganisations.items[1])[1]);\r",
+									"     \r",
+									"});\r",
+									"pm.test(\"Search word testing\", function()\r",
+									"{\r",
+									"  const response = pm.response.json();\r",
+									"  const value = response.data.searchOrganisations.items.find (item => item.name == \"testing\");\r",
+									"   console.log (value);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Searched data with specified word\", function()\r",
+									"  {  \r",
+									"      var jsonData = pm.response.json();\r",
+									"      console.log(jsonData.data.searchOrganisations.items);\r",
+									"      for(var i=0;i<jsonData.data.searchOrganisations.items.length;i++)\r",
+									"      {\r",
+									"      const value = (jsonData.data.searchOrganisations.items[i].name); \r",
+									"      //console.log(value);\r",
+									"       //var gettext = (pm.expect(value).to.be.contains(item => item.name ==\"31\"));\r",
+									"       if (value === \"2007\" )\r",
+									"       {\r",
+									"           console.log(value);\r",
+									"       }\r",
+									"      }\r",
+									"  });\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query SearchOrganisations($filter: SearchableOrganisationFilterInput, $sort: [SearchableOrganisationSortInput], $limit: Int, $nextToken: String, $from: Int) \r\n {\r\n       searchOrganisations(filter: $filter, sort: $sort, limit: $limit, nextToken: $nextToken, from: $from) \r\n       {    items \r\n         {   id\r\n             name      \r\n             listedCompanyName      \r\n             listedCompanyNumber      \r\n             duns      \r\n             domain      \r\n             website      \r\n             phoneNumber      \r\n             email      \r\n             addresses \r\n               {        \r\n                   nameNumber        \r\n                   line1        \r\n                   line2        \r\n                   city        \r\n                   county        \r\n                   postCode        \r\n                   country      \r\n                }\r\n                    overview\r\n                    type      \r\n                    primaryContactId\r\n                    primaryContact \r\n                      {        \r\n                          id        \r\n                          email        \r\n                          firstName        \r\n                          lastName        \r\n                          phoneNumber        \r\n                          role        \r\n                          organisationId      \r\n                      }      \r\n                    logoFileType      \r\n                    logoUrl      \r\n                    logoUploadUrl      \r\n                    iconFileType      \r\n                    iconUrl      \r\n                    iconUploadUrl      \r\n                    createdAt      \r\n                    updatedAt    \r\n                }    \r\n                nextToken    \r\n                total  \r\n            }\r\n        }",
+								"variables": "{\r\n\"filter\":\r\n {\"and\": []},\r\n\"limit\": 35\r\n,\r\n\"nextToken\": null\r\n,\r\n\"sort\": [{\"direction\": \"asc\", \"field\": \"name\"}]\r\n}          "
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Data Library",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" pm.test(\"Length\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"     console.log(jsonData);\r",
+									"     pm.expect(jsonData.data.searchDataTemplates.items).have.length(10);\r",
+									"     console.log(jsonData.data.searchDataTemplates.items.length);\r",
+									" });\r",
+									"//  pm.test(\"Keys\", function()\r",
+									"//     {  var jsonData = pm.response.json();\r",
+									"//        console.log(jsonData.data.searchDataTemplates.items);\r",
+									"//          console.log(Object.keys(jsonData.data.searchDataTemplates.items[0]));\r",
+									"//     });\r",
+									"//  pm.test(\"Key value\", function()\r",
+									"//    {  var jsonData = pm.response.json();\r",
+									"//       for(var i=0;i<jsonData.data.searchDataTemplates.items.length;i++)\r",
+									"//         {\r",
+									"//            for (const [key, value] of Object.entries(jsonData.data.searchDataTemplates.items[i])) \r",
+									"//            {\r",
+									"//              console.log(`${key}: ${value}`);\r",
+									"//            }\r",
+									"//         }\r",
+									"//    });\r",
+									"\r",
+									"// pm.test(\"Search Specific name\", function()\r",
+									"// {\r",
+									"//   const response = pm.response.json();\r",
+									"//   const value = response.data.searchDataTemplates.items.find (item => item.name == \"IFC-Floor-GB-Base 01\");\r",
+									"//   console.log (value);\r",
+									"// });\r",
+									"pm.test(\"Searched data with specified word\", function()\r",
+									"  {  \r",
+									"      var jsonData = pm.response.json();\r",
+									"      console.log(jsonData.data.searchDataTemplates.items);\r",
+									"      for(var i=0;i<jsonData.data.searchDataTemplates.items.length;i++)\r",
+									"      {\r",
+									"      const value = (jsonData.data.searchDataTemplates.items[i].name); \r",
+									"      \r",
+									"       if (value === \"IFC-Pr-CableCarrierFitting-GB-023\" )\r",
+									"       {\r",
+									"           //console.log(value);\r",
+									"           for (const [key, value] of Object.entries(jsonData.data.searchDataTemplates.items[i])) \r",
+									"            {\r",
+									"              console.log(`${key}: ${value}`);\r",
+									"            }\r",
+									"       }\r",
+									"      }\r",
+									"  });\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query SearchDataTemplates($filter: SearchableDataTemplateFilterInput, $sort: [SearchableDataTemplateSortInput], $limit: Int, $nextToken: String, $from: Int, $aggregates: [SearchableDataTemplateAggregationInput]) \r\n{\r\n    searchDataTemplates(filter: $filter, sort: $sort, limit: $limit, nextToken: $nextToken, from: $from, aggregates: $aggregates) \r\n    {   \r\n        items \r\n         {      \r\n             id      \r\n             name      \r\n             description      \r\n             type      \r\n             status      \r\n             version      \r\n             primary      \r\n             isDeleted      \r\n             organisationId      \r\n             organisation \r\n              {        \r\n                  id        \r\n                  name        \r\n                  listedCompanyName        \r\n                  listedCompanyNumber        \r\n                  duns        \r\n                  website        \r\n                  phoneNumber        \r\n                  email        \r\n                  domain        \r\n                  overview        \r\n                  primaryContactId        \r\n                  type        \r\n                  logoFileType        \r\n                  logoUrl        \r\n                  logoUploadUrl        \r\n                  iconFileType        \r\n                  iconUrl        \r\n                  iconUploadUrl        \r\n                  createdAt        \r\n                  updatedAt      \r\n                  }      \r\n                  idBsDb      \r\n                  ifcEntityType      \r\n                  exportedAt      \r\n                  exportedByUserId      \r\n                  exportedByUser \r\n                  {        \r\n                      id        \r\n                      email        \r\n                      firstName        \r\n                      lastName        \r\n                      phoneNumber        \r\n                      officePhoneNumber\r\n                      role        \r\n                      organisationId        \r\n                      status        \r\n                      termsAgreedDate        \r\n                      idpId        \r\n                      lastLogin        \r\n                      createdAt        \r\n                      updatedAt      \r\n                      }      \r\n                      createdByUserId      \r\n                      createdByUser \r\n                      {        \r\n                          id        \r\n                          email        \r\n                          firstName        \r\n                          lastName        \r\n                          phoneNumber        \r\n                          officePhoneNumber        \r\n                          role        \r\n                          organisationId        \r\n                          status        \r\n                          termsAgreedDate        \r\n                          idpId        \r\n                          lastLogin        \r\n                          createdAt        \r\n                          updatedAt      \r\n                          }      \r\n                          updatedByUserId      \r\n                          updatedByUser \r\n                          {        \r\n                              id        \r\n                              email        \r\n                              firstName        \r\n                              lastName        \r\n                              phoneNumber        \r\n                              officePhoneNumber        \r\n                              role        \r\n                              organisationId        \r\n                              status        \r\n                              termsAgreedDate        \r\n                              idpId        \r\n                              lastLogin        \r\n                              createdAt        \r\n                              updatedAt      \r\n                              }      \r\n                              createdAt      \r\n                              updatedAt    \r\n                              }    \r\n                              nextToken    \r\n                              total  \r\n                              }\r\n                            }",
+								"variables": "{\r\n    \"filter\": {\r\n                \"and\": [\r\n                        {\r\n                            \"isDeleted\": {\"ne\": true}\r\n                        } \r\n                ]\r\n    }\r\n,\r\n    \"limit\": 10\r\n    ,\r\n    \"sort\": [{\r\n               \"direction\": \"asc\", \r\n                \"field\": \"name\"\r\n             }]\r\n    }"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Project Status Report",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateReportRequest($input: CreateReportRequestInput!, $condition: ModelReportRequestConditionInput) {\r\n  createReportRequest(input: $input, condition: $condition) {\r\n    id\r\n    reportType\r\n    projectId\r\n    buildingId\r\n    parameters\r\n    includeOptionalItems\r\n    requestedByUserId\r\n    requestedByUser {\r\n      id\r\n      email\r\n      firstName\r\n      lastName\r\n      phoneNumber\r\n      officePhoneNumber\r\n      role\r\n      organisationId\r\n      organisation {\r\n        id\r\n        name\r\n        listedCompanyName\r\n        listedCompanyNumber\r\n        duns\r\n        website\r\n        phoneNumber\r\n        email\r\n        domain\r\n        overview\r\n        primaryContactId\r\n        type\r\n        logoFileType\r\n        logoUrl\r\n        logoUploadUrl\r\n        iconFileType\r\n        iconUrl\r\n        iconUploadUrl\r\n        createdAt\r\n        updatedAt\r\n      }\r\n      status\r\n      termsAgreedDate\r\n      idpId\r\n      lastLogin\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    requestedAt\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"reportType\": \"ProjectProgress\",\r\n    \"projectId\": \"{{PROID}}\",\r\n    \"buildingId\": \"{{bldgid}}\",\r\n    \"parameters\": null,\r\n    \"includeOptionalItems\": null,\r\n    \"requestedByUserId\": \"cfac72d7-72df-4a6a-89e9-6cb5c3381adb\",\r\n    \"requestedAt\": null\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of created Project\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"        console.log(\"Created Project name\", jsonData.data.createProject.name);    \r",
+									"}\r",
+									");\r",
+									"pm.test(\"name of created Project\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"        pm.globals.set(\"Proid\", jsonData.data.createProject.id);    \r",
+									"}\r",
+									");\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateProject($input: CreateProjectInput!) {\r\n  createProject(input: $input) {\r\n    id\r\n    title\r\n    reference\r\n    sector\r\n    floors\r\n    zones {\r\n      items {\r\n        id\r\n        modelGuid\r\n        name\r\n        description\r\n        projectId\r\n        classificationId\r\n        dataTemplateId\r\n        assignedOrganisationIds\r\n        assignedPercent\r\n        aggregateManualHandles\r\n        createdAt\r\n        updatedAt\r\n      }\r\n      nextToken\r\n    }\r\n    budget\r\n    address {\r\n      nameNumber\r\n      line1\r\n      line2\r\n      city\r\n      county\r\n      postCode\r\n    }\r\n    clientId\r\n    client {\r\n      id\r\n      name\r\n    }\r\n    owningOrganisationId\r\n    owningOrganisation {\r\n      id\r\n      name\r\n    }\r\n    licences {\r\n      items {\r\n        id\r\n        description\r\n        licenceType\r\n        organisationId\r\n        organisation {\r\n          id\r\n          name\r\n          email\r\n          domain\r\n          primaryContactId\r\n          type\r\n          createdAt\r\n          updatedAt\r\n        }\r\n        projectId\r\n        project {\r\n          id\r\n          title\r\n          sector\r\n          budget\r\n          floors\r\n          clientId\r\n          owningOrganisationId\r\n          dutyHolderId\r\n          createdById\r\n          createdBy {\r\n            id\r\n            email\r\n            firstName\r\n            lastName\r\n            phoneNumber\r\n            role\r\n            organisationId\r\n          }\r\n          isComplete\r\n          allowVerification\r\n          completedAt\r\n          completedById\r\n          createdAt\r\n          updatedAt\r\n        }\r\n        validFrom\r\n        expiresOn\r\n        createdAt\r\n        updatedAt\r\n      }\r\n      nextToken\r\n    }\r\n    dutyHolderId\r\n    dutyHolder {\r\n      id\r\n      email\r\n      firstName\r\n      lastName\r\n      role\r\n      organisationId\r\n    }\r\n    coordinator {\r\n      id\r\n      email\r\n      firstName\r\n      lastName\r\n      role\r\n      organisationId\r\n    }\r\n    buildingSafetyOfficer {\r\n      id\r\n      email\r\n      firstName\r\n      lastName\r\n      role\r\n      organisationId\r\n    }\r\n    mainContractor {\r\n      id\r\n      name\r\n    }\r\n    createdById\r\n    createdBy {\r\n      id\r\n      email\r\n      firstName\r\n      lastName\r\n      role\r\n      organisationId\r\n    }\r\n    scheduledEmailId\r\n    scheduledEmail {\r\n      id\r\n      projectId\r\n      day\r\n      frequency\r\n      week\r\n    }\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"title\": \"12QATest\",\r\n    \"createdById\": \"92af5cb8-9e23-48ce-b2c8-fb5711930ca4\",\r\n    \"clientId\": \"63a142a1-3cdc-4ecc-ac11-223b8481d488\",\r\n    \"dutyHolderId\": \"92af5cb8-9e23-48ce-b2c8-fb5711930ca4\",\r\n    \"sector\": \"Education\",\r\n    \"owningOrganisationId\": \"63a142a1-3cdc-4ecc-ac11-223b8481d488\",\r\n    \"floors\": null,\r\n    \"budget\": null,\r\n    \"address\": {\r\n      \"nameNumber\": null,\r\n      \"line1\": null,\r\n      \"line2\": null,\r\n      \"city\": null,\r\n      \"county\": null,\r\n      \"postCode\": null,\r\n      \"country\": null\r\n    },\r\n    \"gatewayOne\": null,\r\n    \"gatewayTwo\": null,\r\n    \"gatewayThree\": null,\r\n    \"isComplete\": false,\r\n    \"allowVerification\": null,\r\n    \"completedById\": null\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Project",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of deleted Project\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"        console.log(\"Deleted Project name\", jsonData.data.deleteProject.name);    \r",
+									"}\r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeleteProject($input: DeleteProjectInput!) {\r\n  deleteProject(input: $input) {\r\n    id\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{Proid}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "https://ib7wad22inf4jozptinudl4c3u.appsync-api.eu-west-2.amazonaws.com/graphql"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Org",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of created org\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"        console.log(\"Created org name\", jsonData.data.createOrganisation.name);    \r",
+									"}\r",
+									");\r",
+									"\r",
+									" pm.test(\"Organisation Id\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									" pm.globals.set(\"orgId\", jsonData.data.createOrganisation.id);\r",
+									"}\r",
+									" );\r",
+									" pm.test(\"Organisation name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									" pm.globals.set(\"orgname\", jsonData.data.createOrganisation.name);\r",
+									"}\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateOrganisation($input: CreateOrganisationInput!) {\r\n  createOrganisation(input: $input) {\r\n    id\r\n    name\r\n    listedCompanyName\r\n    listedCompanyNumber\r\n    duns\r\n    website\r\n    phoneNumber\r\n    email\r\n    addresses {\r\n      nameNumber\r\n      line1\r\n      line2\r\n      city\r\n      county\r\n      postCode\r\n      country\r\n    }\r\n    domain\r\n    overview\r\n    type\r\n    logoFileType\r\n    logoUrl\r\n    logoUploadUrl\r\n    iconFileType\r\n    iconUrl\r\n    iconUploadUrl\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"name\": \"NewwebOrg1\",\r\n    \"listedCompanyName\": null,\r\n    \"listedCompanyNumber\": null,\r\n    \"duns\": null,\r\n    \"email\": null,\r\n    \"phoneNumber\": null,\r\n    \"domain\": null,\r\n    \"addresses\": [\r\n      {\r\n        \"nameNumber\": null,\r\n        \"line1\": null,\r\n        \"line2\": null,\r\n        \"city\": null,\r\n        \"county\": null,\r\n        \"postCode\": null,\r\n        \"country\": null\r\n      }\r\n    ],\r\n    \"website\": null,\r\n    \"overview\": null,\r\n    \"type\": null,\r\n    \"primaryContactId\": null,\r\n    \"logoFileType\": null,\r\n    \"iconFileType\": null\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Settings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Updated User values\", function()\r",
+									"    {  var jsonData = pm.response.json();\r",
+									"       \r",
+									"            for (const [key, value] of Object.entries(jsonData.data.updateUser)) \r",
+									"            {\r",
+									"              console.log(`${key}: ${value}`);\r",
+									"            }\r",
+									"        \r",
+									"    });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation UpdateUser($input: UpdateUserInput!, $condition: ModelUserConditionInput) {\r\n  updateUser(input: $input, condition: $condition) {\r\n    id\r\n    email\r\n    firstName\r\n    lastName\r\n    phoneNumber\r\n    officePhoneNumber\r\n    organisationId\r\n    status\r\n    createdAt\r\n    updatedAt\r\n    role\r\n    termsAgreedDate\r\n    lastLogin\r\n  }\r\n}\r\n",
+								"variables": "{\r\n\"input\": \r\n{\r\n  \"id\": \"cfac72d7-72df-4a6a-89e9-6cb5c3381adb\",\r\n  \"firstName\": \"Pravinn\",\r\n  \"lastName\": \"Kadamb\",\r\n  \"phoneNumber\": \"\",\r\n  \"officePhoneNumber\": \"\",\r\n  \"organisationId\": \"3c1983d0-1ed6-4414-890b-2bf41656d36d\",\r\n  \"status\": \"Active\",\r\n  \"role\": \"BIM Coordinator\",\r\n  \"termsAgreedDate\": \"2021-12-21T07:26:11.630Z\"\r\n}\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "OraganisationDetails",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" pm.test(\"Organisation Id\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									" pm.globals.set(\"ORGID\", jsonData.data.updateOrganisation.id);\r",
+									"}\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation UpdateOrganisation($input: UpdateOrganisationInput!) {\r\n  updateOrganisation(input: $input) {\r\n    id\r\n    name\r\n    listedCompanyName\r\n    listedCompanyNumber\r\n    duns\r\n    website\r\n    phoneNumber\r\n    email\r\n    addresses {\r\n      nameNumber\r\n      line1\r\n      line2\r\n      city\r\n      county\r\n      postCode\r\n      country\r\n    }\r\n    domain\r\n    overview\r\n    type\r\n    logoFileType\r\n    logoUrl\r\n    logoUploadUrl\r\n    iconFileType\r\n    iconUrl\r\n    iconUploadUrl\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{orgId}}\",\r\n    \"name\": \"{{orgname}}\",\r\n    \"listedCompanyName\": \"BIMSENSE LIMITED\",\r\n    \"listedCompanyNumber\": \"10310566\",\r\n    \"duns\": \"us908\",\r\n    \"email\": null,\r\n    \"phoneNumber\": \"\",\r\n    \"domain\": \"maildrop.cc\",\r\n    \"addresses\": [\r\n      {\r\n        \"nameNumber\": \"C4di Queen Streett\",\r\n        \"line1\": null,\r\n        \"line2\": null,\r\n        \"city\": null,\r\n        \"county\": null,\r\n        \"postCode\": \"HU1 1UU\",\r\n        \"country\": \"United Kingdom\"\r\n      }\r\n    ],\r\n    \"website\": \"https://bimsense.co.uk/\",\r\n    \"overview\": \"<h1>details89</h1>\",\r\n    \"type\": \"Occupier\",\r\n    \"primaryContactId\": null,\r\n    \"logoFileType\": \"image/jpeg\",\r\n    \"iconFileType\": \"image/jpeg\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchActiveUsers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query SearchUserInvites($filter: SearchableUserInviteFilterInput, $sort: [SearchableUserInviteSortInput], $limit: Int, $nextToken: String, $from: Int, $aggregates: [SearchableUserInviteAggregationInput]) {\r\n  searchUserInvites(filter: $filter, sort: $sort, limit: $limit, nextToken: $nextToken, from: $from, aggregates: $aggregates) {\r\n    total\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"limit\": null,\r\n  \"filter\": {\r\n    \"and\": [\r\n      {\r\n        \"organisationId\": {\r\n          \"eq\": \"{{orgId}}\"\r\n        }\r\n      },\r\n      {\r\n        \"status\": {\r\n          \"eq\": \"Sent\"\r\n        }\r\n      }\r\n    ]\r\n  },\r\n  \"nextToken\": null\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "AddUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateUserInvite($input: CreateUserInviteInput!, $condition: ModelUserInviteConditionInput) {\r\n  createUserInvite(input: $input, condition: $condition) {\r\n    organisationId\r\n    email\r\n    message\r\n    status\r\n    roleHandle\r\n    role {\r\n      handle\r\n      name\r\n      description\r\n      objectType\r\n      isRetired\r\n      permissionHandles\r\n    }\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"organisationId\": \"{{orgId}}\",\r\n    \"email\": \"testuser99@maildrop.cc\",\r\n    \"roleHandle\": \"legacy/organisation_edit\",\r\n    \"status\": \"Sent\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchProjectforusers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query SearchProjectsForUser($filter: SearchableProjectFilterInput, $sort: [SearchableProjectSortInput], $limit: Int, $nextToken: String, $from: Int) {\r\n  searchProjectsForUser(filter: $filter, sort: $sort, limit: $limit, nextToken: $nextToken, from: $from) {\r\n    items {\r\n      id\r\n      title\r\n      reference\r\n      sector\r\n      address {\r\n        nameNumber\r\n        line1\r\n        line2\r\n        city\r\n        county\r\n        postCode\r\n        country\r\n      }\r\n      clientId\r\n      client {\r\n        id\r\n        name\r\n      }\r\n      owningOrganisationId\r\n      owningOrganisation {\r\n        id\r\n        name\r\n      }\r\n      licences {\r\n        items {\r\n          id\r\n          description\r\n          licenceType\r\n          organisationId\r\n          organisation {\r\n            id\r\n            name\r\n            email\r\n            domain\r\n            primaryContactId\r\n            type\r\n            createdAt\r\n            updatedAt\r\n          }\r\n          projectId\r\n          project {\r\n            id\r\n            title\r\n            sector\r\n            budget\r\n            floors\r\n            clientId\r\n            owningOrganisationId\r\n            dutyHolderId\r\n            createdById\r\n            createdBy {\r\n              id\r\n              email\r\n              firstName\r\n              lastName\r\n              phoneNumber\r\n              role\r\n              organisationId\r\n            }\r\n            isComplete\r\n            allowVerification\r\n            completedAt\r\n            completedById\r\n            createdAt\r\n            updatedAt\r\n          }\r\n          validFrom\r\n          expiresOn\r\n          createdAt\r\n          updatedAt\r\n        }\r\n        nextToken\r\n      }\r\n      dutyHolderId\r\n      dutyHolder {\r\n        id\r\n        email\r\n        firstName\r\n        lastName\r\n        phoneNumber\r\n        officePhoneNumber\r\n        role\r\n        organisationId\r\n        status\r\n      }\r\n      coordinator {\r\n        id\r\n        email\r\n        firstName\r\n        lastName\r\n        phoneNumber\r\n        officePhoneNumber\r\n        role\r\n        organisationId\r\n        status\r\n      }\r\n      buildingSafetyOfficer {\r\n        id\r\n        email\r\n        firstName\r\n        lastName\r\n        phoneNumber\r\n        officePhoneNumber\r\n        role\r\n        organisationId\r\n        status\r\n      }\r\n      mainContractor {\r\n        id\r\n        name\r\n        website\r\n        phoneNumber\r\n        email\r\n      }\r\n      createdById\r\n      createdBy {\r\n        id\r\n        email\r\n        firstName\r\n        lastName\r\n        phoneNumber\r\n        officePhoneNumber\r\n        role\r\n        organisationId\r\n        status\r\n      }\r\n      gatewayOne {\r\n        targetDate\r\n        signoff {\r\n          date\r\n          signedOffById\r\n        }\r\n      }\r\n      gatewayTwo {\r\n        targetDate\r\n        signoff {\r\n          date\r\n          signedOffById\r\n        }\r\n      }\r\n      gatewayThree {\r\n        targetDate\r\n        signoff {\r\n          date\r\n          signedOffById\r\n        }\r\n      }\r\n      isComplete\r\n      completedAt\r\n      completedById\r\n      completedBy {\r\n        id\r\n        email\r\n        firstName\r\n        lastName\r\n        phoneNumber\r\n        officePhoneNumber\r\n        role\r\n        organisationId\r\n        status\r\n      }\r\n      scheduledEmailId\r\n      scheduledEmail {\r\n        id\r\n        projectId\r\n        day\r\n        frequency\r\n        week\r\n      }\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    nextToken\r\n    total\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"limit\": null,\r\n  \"sort\": [\r\n    {\r\n      \"field\": \"title\",\r\n      \"direction\": \"asc\"\r\n    }\r\n  ],\r\n  \"filter\": {\r\n    \"owningOrganisationId\": {\r\n      \"eq\": \"63a142a1-3cdc-4ecc-ac11-223b8481d488\"\r\n    }\r\n  },\r\n  \"nextToken\": null\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "oauth2",
+				"oauth2": {
+					"tokenType": "Bearer",
+					"accessToken": "eyJraWQiOiJnS3JXK1lmWGRtWnRVbjJ3OVVtTldJakxBbjV5S1VtdzdYUEFubGZ5aTFBPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJhYjA3ZWJkNy1jNjc3LTRhYjctOTU5NS01Y2M1YWQyNDVlMDMiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAuZXUtd2VzdC0yLmFtYXpvbmF3cy5jb21cL2V1LXdlc3QtMl93OVI0WnM4Q3oiLCJ2ZXJzaW9uIjoyLCJjbGllbnRfaWQiOiI1bWt1aXZhZG9kcHQ5MHFrOGFmcDc5MzBuZSIsImV2ZW50X2lkIjoiZWY1MGI5OWEtNjRjOC00ZmNiLTk1ZGEtMTdmZmE0ZGJiZGVlIiwidG9rZW5fdXNlIjoiYWNjZXNzIiwic2NvcGUiOiJvcGVuaWQgZW1haWwiLCJhdXRoX3RpbWUiOjE2Nzc2NzkxNzEsImV4cCI6MTY3NzY4Mjc3MSwiaWF0IjoxNjc3Njc5MTcxLCJqdGkiOiI5MGQyZWYwNS1iOWI2LTQ5NjQtYWY1MC01NTc0MjlkMmIxNjAiLCJ1c2VybmFtZSI6ImFiMDdlYmQ3LWM2NzctNGFiNy05NTk1LTVjYzVhZDI0NWUwMyJ9.fJet54t6j4EIRDF9iYqJsq7WldlPPyrbGJdQbRtBTB4KBX5faQdCeLlXewhYAq_AiRpuVMWiBQ4W0RaIX7PS8sxgzoQ-X0Ynx_WPxAt_dUhJB7jmStodVfdzHadkqFOWNqAre7RSC2dgpIyK_Wql2_vXGgAkStAe0_zc6QgZBVxR2uPHgh34m5HvfNUvglxAWu5mw3BXI79YaVuwxX9dC43RGpC-c0V7c9Sq5EIJmtHIk-xTcgQVsp5XRHaGN4_fWWkJc_qoFCCoV8aJFNdn6UxuxnINP1uxQDQiD9u_LYlzHRtJIvOUvAMLGbtMSFL2b-bD7L_tXgTNiZDgMUdrSg",
+					"redirect_uri": "http://localhost",
+					"useBrowser": false,
+					"clientId": "{{clientId}}",
+					"authUrl": "https://om-test.auth.eu-west-2.amazoncognito.com/login",
+					"grant_type": "implicit",
+					"tokenName": "qaToken",
+					"headerPrefix": "",
+					"addTokenTo": "header"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Creation in Facilities tab",
+			"item": [
+				{
+					"name": "Create Building",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" pm.test(\"Building Id\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									" pm.globals.set(\"bldgId\", jsonData.data.createBuilding.id);\r",
+									"}\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateBuilding($input: CreateBuildingInput!) {\r\n  createBuilding(input: $input) {\r\n    id\r\n    modelGuid\r\n    name\r\n    description\r\n    reference\r\n    address {\r\n      nameNumber\r\n      line1\r\n      line2\r\n      city\r\n      county\r\n      postCode\r\n      country\r\n    }\r\n    floors\r\n    zones {\r\n      items {\r\n        id\r\n      }\r\n    }\r\n    projectId\r\n    assignedPercent\r\n    aggregateManualHandles\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"name\": \"TestB4\",\r\n    \"reference\": null,\r\n    \"description\": null,\r\n    \"address\": {\r\n      \"nameNumber\": null,\r\n      \"line1\": null,\r\n      \"line2\": null,\r\n      \"city\": null,\r\n      \"county\": null,\r\n      \"postCode\": null,\r\n      \"country\": null\r\n    },\r\n    \"floors\": null,\r\n    \"projectId\": \"{{PROID}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateBuilding",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Updated Building Name\", function () \r",
+									" {\r",
+									"    var jsonData = pm.response.json();\r",
+									"     console.log(\"Updated Building Name\", jsonData.data.updateBuilding.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation UpdateBuilding($input: UpdateBuildingInput!) {\r\n  updateBuilding(input: $input) {\r\n    id\r\n    modelGuid\r\n    name\r\n    reference\r\n    address {\r\n      nameNumber\r\n      line1\r\n      line2\r\n      city\r\n      county\r\n      postCode\r\n      country\r\n    }\r\n    floors\r\n    zones {\r\n      items {\r\n        id\r\n      }\r\n    }\r\n    projectId\r\n    project {\r\n      id\r\n      title\r\n      clientId\r\n      owningOrganisationId\r\n      allowVerification\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    dataTemplateId\r\n    dataTemplate {\r\n      id\r\n      name\r\n    }\r\n    assignedPercent\r\n    aggregateManualHandles\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{bldgId}}\",\r\n    \"name\": \"TestB4\",\r\n    \"reference\": \"990\",\r\n    \"description\": null,\r\n    \"address\": {\r\n      \"nameNumber\": null,\r\n      \"line1\": null,\r\n      \"line2\": null,\r\n      \"city\": null,\r\n      \"county\": null,\r\n      \"postCode\": null,\r\n      \"country\": null\r\n    },\r\n    \"floors\": null,\r\n    \"projectId\": \"{{PROID}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Buildings",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query SearchBuildings($input: SearchableEntityInput!, $filter: SearchableBuildingFilterInput, $sort: [SearchableBuildingSortInput], $limit: Int, $nextToken: String, $from: Int) {\r\n  searchBuildings(input: $input, filter: $filter, sort: $sort, limit: $limit, nextToken: $nextToken, from: $from) {\r\n    items {\r\n      id\r\n      modelGuid\r\n      name\r\n      reference\r\n      address {\r\n        nameNumber\r\n        line1\r\n        line2\r\n        city\r\n        county\r\n        postCode\r\n        country\r\n      }\r\n      floors\r\n      projectId\r\n      project {\r\n        id\r\n        title\r\n        clientId\r\n        owningOrganisationId\r\n        allowVerification\r\n        createdAt\r\n        updatedAt\r\n      }\r\n      dataTemplateId\r\n      dataTemplate {\r\n        id\r\n        name\r\n      }\r\n      assignedPercent\r\n      aggregateManualHandles\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    nextToken\r\n    total\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"projectIds\": [\r\n      \"{{PROID}}\"\r\n    ]\r\n  },\r\n  \"filter\": {\r\n    \"and\": [\r\n      {\r\n        \"projectId\": {\r\n          \"eq\": \"{{PROID}}\"\r\n        }\r\n      }\r\n    ]\r\n  },\r\n  \"sort\": [\r\n    {\r\n      \"field\": \"name\",\r\n      \"direction\": \"asc\"\r\n    }\r\n  ],\r\n  \"limit\": null,\r\n  \"nextToken\": null\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Property set in Facility",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Create property set\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.createPropertySet.name);\r",
+									" }\r",
+									" );\r",
+									" pm.test(\"Property Set Id\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									" pm.globals.set(\"Id\", jsonData.data.createPropertySet.id);\r",
+									"}\r",
+									" );\r",
+									"  pm.test(\"Project Id\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									" pm.globals.set(\"ProId\", jsonData.data.createPropertySet.projectId);\r",
+									"}\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreatePropertySet($input: CreatePropertySetInput!) {\r\n  createPropertySet(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    progressPercentage\r\n    objectType\r\n    objectId\r\n    projectId\r\n    project {\r\n      id\r\n      owningOrganisationId\r\n    }\r\n    assignedToOrganisationId\r\n    assignedToOrganisation {\r\n      id\r\n      name\r\n    }\r\n    defaultManualHandles\r\n    aggregateManualHandles\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"objectId\": \"{{bldgId}}\",\r\n    \"name\": \"test10\",\r\n    \"description\": null,\r\n    \"objectType\": \"Building\",\r\n    \"projectId\": \"{{PROID}}\",\r\n    \"defaultManualHandles\": [\r\n      \"building_assessment_certificate_application\"\r\n    ]\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "EditPropertySet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Manual Category\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.updatePropertySet.defaultManualHandles);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation UpdatePropertySet($input: UpdatePropertySetInput!) {\r\n  updatePropertySet(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    progressPercentage\r\n    objectType\r\n    objectId\r\n    projectId\r\n    project {\r\n      id\r\n      owningOrganisationId\r\n    }\r\n    assignedToOrganisationId\r\n    assignedToOrganisation {\r\n      id\r\n      name\r\n    }\r\n    defaultManualHandles\r\n    aggregateManualHandles\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{Id}}\",\r\n    \"name\": \"Testing123\",\r\n    \"description\": null,\r\n    \"assignedToOrganisationId\": null,\r\n    \"defaultManualHandles\": [\r\n      \"building_assessment_certificate_application\"\r\n    ]\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateProperty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"        pm.globals.set(\"propertyname\", jsonData.data.createProperty.name);    \r",
+									"}\r",
+									");\r",
+									"pm.test(\"id\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.globals.set(\"propertyid\", jsonData.data.createProperty.id);\r",
+									"}\r",
+									");\r",
+									"pm.test(\"type\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.globals.set(\"propertytype\", jsonData.data.createProperty.type);\r",
+									"}\r",
+									");\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateProperty($input: CreatePropertyInput!) {\r\n  createProperty(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    type\r\n    unit\r\n    value\r\n    permittedValues\r\n    isRequired\r\n    isComplete\r\n    manualHandles\r\n    propertySetId\r\n    projectId\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"name\": \"test2\",\r\n    \"description\": null,\r\n    \"type\": \"email\",\r\n    \"unit\": null,\r\n    \"value\": null,\r\n    \"permittedValues\": null,\r\n    \"manualHandles\": [\r\n      \"relevant_and_recurring_complaints\"\r\n    ],\r\n    \"isRequired\": true,\r\n    \"propertySetId\": \"{{Id}}\",\r\n    \"projectId\": \"{{PROID}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Property",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Changed Type\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.updateProperty.type);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation UpdateProperty($input: UpdatePropertyInput!) {\r\n  updateProperty(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    type\r\n    unit\r\n    value\r\n    permittedValues\r\n    isRequired\r\n    manualHandles\r\n    propertySetId\r\n    projectId\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertyid}}\",\r\n    \"name\": \"new1\",\r\n    \"description\": null,\r\n    \"type\": \"number\",\r\n    \"value\": null,\r\n    \"permittedValues\": null,\r\n    \"unit\": null,\r\n    \"isRequired\": true\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteProperty Set",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DeletedProperty Set name\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.deletePropertySet.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeletePropertySet($input: DeleteEntityInput!) {\r\n  deletePropertySet(input: $input) {\r\n    id\r\n    name\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{Id}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Property",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeleteProperty($input: DeleteEntityInput!) {\r\n  deleteProperty(input: $input) {\r\n    id\r\n    propertySetId\r\n    name\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertyid}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "https://ib7wad22inf4jozptinudl4c3u.appsync-api.eu-west-2.amazonaws.com/graphql"
+					},
+					"response": []
+				},
+				{
+					"name": "Add New Floor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of System\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"        pm.globals.set(\"propertyname\", jsonData.data.createFloor.name);    \r",
+									"}\r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateFloor($input: CreateFloorInput!) {\r\n  createFloor(input: $input) {\r\n    id\r\n    modelGuid\r\n    name\r\n    reference\r\n    description\r\n    elevation\r\n    buildingId\r\n    building {\r\n      id\r\n      modelGuid\r\n      name\r\n      reference\r\n      address {\r\n        nameNumber\r\n        line1\r\n        line2\r\n        city\r\n        county\r\n        postCode\r\n        country\r\n      }\r\n      floors\r\n      projectId\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    zones {\r\n      items {\r\n        id\r\n      }\r\n    }\r\n    projectId\r\n    assignedPercent\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"name\": \"testfloor1\",\r\n    \"reference\": null,\r\n    \"description\": null,\r\n    \"elevation\": 0,\r\n    \"buildingId\": \"{{bldgId}}\",\r\n    \"projectId\": \"{{PROID}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Add New System",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of System\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"        pm.globals.set(\"propertyname\", jsonData.data.createSystem.name);    \r",
+									"}\r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateSystem($input: CreateSystemInput!) {\r\n  createSystem(input: $input) {\r\n    id\r\n    name\r\n    modelGuid\r\n    description\r\n    buildingId\r\n    building {\r\n      id\r\n      modelGuid\r\n      name\r\n      reference\r\n      address {\r\n        nameNumber\r\n        line1\r\n        line2\r\n        city\r\n        county\r\n        postCode\r\n        country\r\n      }\r\n      floors\r\n      projectId\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    projectId\r\n    dataTemplateId\r\n    classificationId\r\n    classification {\r\n      id\r\n      code\r\n      name\r\n    }\r\n    assignedPercent\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"name\": \"Testsys1\",\r\n    \"projectId\": \"{{PROID}}\",\r\n    \"buildingId\": \"{{bldgId}}\",\r\n    \"classificationId\": null,\r\n    \"description\": null,\r\n    \"modelGuid\": null\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteBuilding",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Deleted Building Name\", function () \r",
+									" {\r",
+									"    var jsonData = pm.response.json();\r",
+									"         console.log(\"Deleted Building Name\", jsonData.data.deleteBuilding.name);\r",
+									" }\r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeleteBuilding {\r\n  deleteBuilding(input: {id: \"{{bldgId}}\"}) {\r\n    id\r\n    name\r\n    isDeleted\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Creation in Floor tab",
+			"item": [
+				{
+					"name": "CreateFloor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Created Floor\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.createFloor.name);\r",
+									" }\r",
+									" );\r",
+									" pm.test(\"elevation of Created Floor\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.createFloor.elevation);\r",
+									" }\r",
+									" );\r",
+									"\r",
+									" pm.test(\"IdF\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"     pm.globals.set(\"Idf\",jsonData.data.createFloor.id);\r",
+									" }\r",
+									" );\r",
+									" pm.test(\"Name\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									" pm.globals.set('NameF',jsonData.data.createFloor.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateFloor($input: CreateFloorInput!) {\r\n  createFloor(input: $input) {\r\n    id\r\n    modelGuid\r\n    name\r\n    reference\r\n    description\r\n    elevation\r\n    buildingId\r\n    building {\r\n      id\r\n      modelGuid\r\n      name\r\n      reference\r\n      address {\r\n        nameNumber\r\n        line1\r\n        line2\r\n        city\r\n        county\r\n        postCode\r\n        country\r\n      }\r\n      floors\r\n      projectId\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    zones {\r\n      items {\r\n        id\r\n      }\r\n    }\r\n    projectId\r\n    assignedOrganisationIds\r\n    assignedPercent\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"name\": \"AtestFloor\",\r\n    \"reference\": null,\r\n    \"description\": null,\r\n    \"elevation\": 4,\r\n    \"buildingId\": \"{{bldgId}}\",\r\n    \"projectId\": \"{{PROID}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Floor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation UpdateFloor($input: UpdateFloorInput!) {\r\n  updateFloor(input: $input) {\r\n    id\r\n    modelGuid\r\n    name\r\n    reference\r\n    description\r\n    elevation\r\n    buildingId\r\n    building {\r\n      id\r\n      name\r\n      projectId\r\n      aggregateManualHandles\r\n      manualHandles\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    projectId\r\n    project {\r\n      id\r\n      title\r\n      clientId\r\n      owningOrganisationId\r\n      allowVerification\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    dataTemplateId\r\n    dataTemplate {\r\n      id\r\n      name\r\n    }\r\n    zones {\r\n      items {\r\n        id\r\n      }\r\n    }\r\n    assignedPercent\r\n    aggregateManualHandles\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{Idf}}\",\r\n    \"name\": \"AtestFloor11\",\r\n    \"reference\": null,\r\n    \"description\": null,\r\n    \"elevation\": 4,\r\n    \"buildingId\": \"{{bldgId}}\",\r\n    \"projectId\": \"{{PROID}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Property Set",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"propertysetid\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									" pm.globals.set(\"propertysetidf\",jsonData.data.createPropertySet.id);\r",
+									" }\r",
+									" );\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreatePropertySet($input: CreatePropertySetInput!) {\r\n  createPropertySet(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    progressPercentage\r\n    objectType\r\n    objectId\r\n    projectId\r\n    project {\r\n      id\r\n      owningOrganisationId\r\n    }\r\n    assignedToOrganisationId\r\n    assignedToOrganisation {\r\n      id\r\n      name\r\n    }\r\n    defaultManualHandles\r\n    aggregateManualHandles\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"objectId\": \"{{Idf}}\",\r\n    \"name\": \"test3\",\r\n    \"description\": null,\r\n    \"objectType\": \"Floor\",\r\n    \"projectId\": \"{{PROID}}\",\r\n    \"defaultManualHandles\": [\r\n      \"operations_and_maintenance\"\r\n    ]\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "createproperty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"propertyidf\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									" pm.globals.set(\"propertyidf\",jsonData.data.createProperty.id);\r",
+									" }\r",
+									" );\r",
+									"\r",
+									" pm.test(\"propertyname\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									" pm.globals.set(\"propertynamef\",jsonData.data.createProperty.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateProperty($input: CreatePropertyInput!) {\r\n  createProperty(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    type\r\n    unit\r\n    value\r\n    permittedValues\r\n    isRequired\r\n    isComplete\r\n    manualHandles\r\n    propertySetId\r\n    projectId\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"name\": \"new1\",\r\n    \"description\": null,\r\n    \"type\": \"email\",\r\n    \"unit\": null,\r\n    \"value\": null,\r\n    \"permittedValues\": null,\r\n    \"manualHandles\": [\r\n      \"operations_and_maintenance\"\r\n    ],\r\n    \"isRequired\": true,\r\n    \"propertySetId\": \"{{propertysetidf}}\",\r\n    \"projectId\": \"{{PROID}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "editproperty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Updated Property name\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.updateProperty.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation UpdateProperty($input: UpdatePropertyInput!) {\r\n  updateProperty(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    type\r\n    unit\r\n    value\r\n    permittedValues\r\n    isRequired\r\n    isComplete\r\n    manualHandles\r\n    propertySetId\r\n    projectId\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertyidf}}\",\r\n    \"name\": \"new1\",\r\n    \"description\": null,\r\n    \"type\": \"file\",\r\n    \"value\": null,\r\n    \"permittedValues\": null,\r\n    \"unit\": null,\r\n    \"isRequired\": true\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Propertyset",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation UpdatePropertySet($input: UpdatePropertySetInput!) {\r\n  updatePropertySet(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    progressPercentage\r\n    objectType\r\n    objectId\r\n    projectId\r\n    project {\r\n      id\r\n      owningOrganisationId\r\n    }\r\n    assignedToOrganisationId\r\n    assignedToOrganisation {\r\n      id\r\n      name\r\n    }\r\n    defaultManualHandles\r\n    aggregateManualHandles\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertysetidf}}\",\r\n    \"name\": \"qa\",\r\n    \"description\": \"test\",\r\n    \"assignedToOrganisationId\": null,\r\n    \"defaultManualHandles\": [\r\n      \"operationsAndMaintenance\"\r\n    ]\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteProperty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DeletedProperty name\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.deleteProperty.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeleteProperty($input: DeleteEntityInput!) {\r\n  deleteProperty(input: $input) {\r\n    id\r\n    propertySetId\r\n    name\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertyidf}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Deletepropertyset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DeletedProperty Set name\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.deletePropertySet.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeletePropertySet($input: DeleteEntityInput!) {\r\n  deletePropertySet(input: $input) {\r\n    id\r\n    name\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertysetidf}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Add New Space",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Space\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"        pm.globals.set(\"propertyname\", jsonData.data.createSpace.name);    \r",
+									"}\r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateSpace($input: CreateSpaceInput!) {\r\n  createSpace(input: $input) {\r\n    id\r\n    modelGuid\r\n    name\r\n    number\r\n    description\r\n    floorArea\r\n    height\r\n    perimeter\r\n    floorId\r\n    floor {\r\n      id\r\n      name\r\n      reference\r\n      description\r\n      projectId\r\n      buildingId\r\n    }\r\n    classification {\r\n      code\r\n      name\r\n    }\r\n    buildingId\r\n    building {\r\n      id\r\n      name\r\n      reference\r\n      projectId\r\n    }\r\n    zones {\r\n      items {\r\n        id\r\n      }\r\n    }\r\n    projectId\r\n    assignedPercent\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"name\": \"Tests2\",\r\n    \"number\": \"123\",\r\n    \"description\": null,\r\n    \"floorArea\": null,\r\n    \"floorId\": \"{{Idf}}\",\r\n    \"buildingId\": \"{{bldgId}}\",\r\n    \"projectId\": \"{{PROID}}\",\r\n    \"dataTemplateId\": null\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Floor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Deleted Floor Name\", function () \r",
+									" {\r",
+									"    var jsonData = pm.response.json();\r",
+									"         console.log(\"Deleted Floor Name\", jsonData.data.deleteFloor.name);\r",
+									" }\r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeleteFloor($input: DeleteEntityInput!) {\r\n  deleteFloor(input: $input) {\r\n    id\r\n    name\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{Idf}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{Authtoken}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Creation in Space",
+			"item": [
+				{
+					"name": "CreateSpace",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Created space\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.createSpace.name);\r",
+									" }\r",
+									" );\r",
+									" pm.test(\"NameS\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"     pm.globals.set(\"Names\",jsonData.data.createSpace.name);\r",
+									" }\r",
+									" );\r",
+									" pm.test(\"IdS\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"     pm.globals.set(\"Ids\",jsonData.data.createSpace.id);\r",
+									" }\r",
+									" );\r",
+									" "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateSpace($input: CreateSpaceInput!) {\r\n  createSpace(input: $input) {\r\n    id\r\n    modelGuid\r\n    name\r\n    number\r\n    description\r\n    floorArea\r\n    height\r\n    perimeter\r\n    floorId\r\n    floor {\r\n      id\r\n      name\r\n      reference\r\n      description\r\n      projectId\r\n      buildingId\r\n    }\r\n    classification {\r\n      code\r\n      name\r\n    }\r\n    buildingId\r\n    building {\r\n      id\r\n      name\r\n      reference\r\n      projectId\r\n    }\r\n    zones {\r\n      items {\r\n        id\r\n      }\r\n    }\r\n    projectId\r\n    assignedOrganisationIds\r\n    assignedPercent\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"name\": \"TestSpace1\",\r\n    \"number\": \"67883\",\r\n    \"description\": null,\r\n    \"floorArea\": null,\r\n    \"floorId\": \"{{Idf}}\",\r\n    \"buildingId\": \"{{bldgId}}\",\r\n    \"projectId\": \"{{PROID}}\",\r\n    \"dataTemplateId\": null\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "EditSpace",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Edited space\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.updateSpace.name);\r",
+									" }\r",
+									" );\r",
+									" pm.test(\"Desc of space\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.updateSpace.description);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation UpdateSpace($input: UpdateSpaceInput!) {\r\n  updateSpace(input: $input) {\r\n    id\r\n    modelGuid\r\n    name\r\n    number\r\n    description\r\n    floorArea\r\n    height\r\n    perimeter\r\n    floorId\r\n    floor {\r\n      id\r\n      name\r\n      buildingId\r\n      projectId\r\n      dataTemplateId\r\n      aggregateManualHandles\r\n      manualHandles\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    buildingId\r\n    building {\r\n      id\r\n      name\r\n      projectId\r\n      aggregateManualHandles\r\n      manualHandles\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    projectId\r\n    project {\r\n      id\r\n      title\r\n      clientId\r\n      owningOrganisationId\r\n      allowVerification\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    dataTemplateId\r\n    dataTemplate {\r\n      id\r\n      name\r\n    }\r\n    assignedPercent\r\n    aggregateManualHandles\r\n    manualHandles\r\n    classification {\r\n      code\r\n      name\r\n    }\r\n    zones {\r\n      items {\r\n        id\r\n      }\r\n    }\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{Ids}}\",\r\n    \"modelGuid\": null,\r\n    \"name\": \"TestSpace2\",\r\n    \"number\": \"67\",\r\n    \"description\": null,\r\n    \"floorArea\": null,\r\n    \"height\": null,\r\n    \"perimeter\": null,\r\n    \"floorId\": \"{{Idf}}\",\r\n    \"buildingId\": \"{{bldgId}}\",\r\n    \"projectId\": \"{{PROID}}\",\r\n    \"dataTemplateId\": null\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "GetSpace",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query GetStuff {\r\n  getSpace(id: \"{{Ids}}\") {\r\n    id\r\n    name\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Property Set",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Created property set\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.createPropertySet.name);\r",
+									" }\r",
+									" );\r",
+									"\r",
+									"pm.test(\"Propertysetid\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"     pm.globals.set(\"propertysetids\",jsonData.data.createPropertySet.id);\r",
+									" }\r",
+									" );\r",
+									"pm.test(\"Propertysetname\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"     pm.globals.set(\"propertysetnames\",jsonData.data.createPropertySet.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreatePropertySet($input: CreatePropertySetInput!) {\r\n  createPropertySet(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    progressPercentage\r\n    objectType\r\n    objectId\r\n    projectId\r\n    project {\r\n      id\r\n      owningOrganisationId\r\n    }\r\n    assignedToOrganisationId\r\n    assignedToOrganisation {\r\n      id\r\n      name\r\n    }\r\n    defaultManualHandles\r\n    aggregateManualHandles\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"objectId\": \"0a4afc02-9438-429d-b6ff-4fda48b82b3b\",\r\n    \"name\": \"Test1\",\r\n    \"description\": null,\r\n    \"objectType\": \"Space\",\r\n    \"projectId\": \"{{PROID}}\",\r\n    \"defaultManualHandles\": [\r\n      \"operations_and_maintenance)\"\r\n    ]\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateProperty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" pm.test(\"Property Name of space\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.createProperty.name);\r",
+									" }\r",
+									" );\r",
+									" pm.test(\"Propertyname\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    pm.globals.set(\"propertynames\",jsonData.data.createProperty.name);\r",
+									" }\r",
+									" );\r",
+									" pm.test(\"Propertyid\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    pm.globals.set(\"propertyids\",jsonData.data.createProperty.id);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateProperty($input: CreatePropertyInput!) {\r\n  createProperty(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    type\r\n    unit\r\n    value\r\n    permittedValues\r\n    isRequired\r\n    isComplete\r\n    manualHandles\r\n    propertySetId\r\n    projectId\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"name\": \"new2\",\r\n    \"description\": null,\r\n    \"type\": \"email\",\r\n    \"unit\": null,\r\n    \"value\": null,\r\n    \"permittedValues\": null,\r\n    \"manualHandles\": [\r\n      \"operations_and_maintenance\"\r\n    ],\r\n    \"isRequired\": true,\r\n    \"propertySetId\": \"{{propertysetids}}\",\r\n    \"projectId\": \"{{PROID}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Property Set",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Updated Property name\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.updatePropertySet.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation UpdatePropertySet($input: UpdatePropertySetInput!) {\r\n  updatePropertySet(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    progressPercentage\r\n    objectType\r\n    objectId\r\n    projectId\r\n    project {\r\n      id\r\n      owningOrganisationId\r\n    }\r\n    assignedToOrganisationId\r\n    assignedToOrganisation {\r\n      id\r\n      name\r\n    }\r\n    defaultManualHandles\r\n    aggregateManualHandles\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertysetids}}\",\r\n    \"name\": \"test\",\r\n    \"description\": \"qa\",\r\n    \"assignedToOrganisationId\": null,\r\n    \"defaultManualHandles\": [\r\n      \"health_and_safety\"\r\n    ]\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Property",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation UpdateProperty($input: UpdatePropertyInput!) {\r\n  updateProperty(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    type\r\n    unit\r\n    value\r\n    permittedValues\r\n    isRequired\r\n    isComplete\r\n    manualHandles\r\n    propertySetId\r\n    projectId\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertyids}}\",\r\n    \"name\": \"new1\",\r\n    \"description\": null,\r\n    \"type\": \"check_box\",\r\n    \"value\": null,\r\n    \"permittedValues\": null,\r\n    \"unit\": null,\r\n    \"isRequired\": true\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Property",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"DeletedProperty name\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.deleteProperty.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeleteProperty($input: DeleteEntityInput!) {\r\n  deleteProperty(input: $input) {\r\n    id\r\n    name\r\n    propertySetId\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertyids}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Property Set",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Deleted property\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.deletePropertySet.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeletePropertySet($input: DeleteEntityInput!) {\r\n  deletePropertySet(input: $input) {\r\n    id\r\n    name\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertysetids}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteSpace",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeleteSpace($input: DeleteEntityInput!) {\r\n  deleteSpace(input: $input) {\r\n    id\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{Ids}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{Authtoken}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Creation in Package",
+			"item": [
+				{
+					"name": "CreatePackage",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Created package\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.createAssetType.name);\r",
+									" }\r",
+									" );\r",
+									"\r",
+									" pm.test(\"name of Created package classification\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.createAssetType.classification.name);\r",
+									" }\r",
+									" );\r",
+									"\r",
+									"pm.test(\"PackageId\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"     pm.globals.set(\"packageid\",jsonData.data.createAssetType.id);\r",
+									" }\r",
+									" );\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateAssetType($input: CreateAssetTypeInput!) {\r\n  createAssetType(input: $input) {\r\n    id\r\n    name\r\n    classification {\r\n      code\r\n      name\r\n    }\r\n    projectId\r\n    assignedOrganisationIds\r\n    assignedPercent\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"name\": \"TestP1\",\r\n    \"classification\": {\r\n      \"code\": \"PM_40_40_01\",\r\n      \"name\": \"2D plan drawings\",\r\n      \"classSystem\": \"null\"\r\n    },\r\n    \"projectId\": \"{{PROID}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Add New Property Set",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Created propertySet\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.createPropertySet.name);\r",
+									" }\r",
+									" );\r",
+									"\r",
+									" pm.test(\"Propertysetidp\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"     pm.globals.set(\"propertysetidp\",jsonData.data.createPropertySet.id);\r",
+									" }\r",
+									" );\r",
+									"\r",
+									"  pm.test(\"Propertysetnamep\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"     pm.globals.set(\"propertysetnamep\",jsonData.data.createPropertySet.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreatePropertySet($input: CreatePropertySetInput!) {\r\n  createPropertySet(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    progressPercentage\r\n    objectType\r\n    objectId\r\n    projectId\r\n    project {\r\n      id\r\n      owningOrganisationId\r\n    }\r\n    assignedToOrganisationId\r\n    assignedToOrganisation {\r\n      id\r\n      name\r\n    }\r\n    defaultManualHandles\r\n    aggregateManualHandles\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"objectId\": \"{{packageid}}\",\r\n    \"name\": \"testing1\",\r\n    \"description\": null,\r\n    \"objectType\": \"AssetType\",\r\n    \"projectId\": \"{{PROID}}\",\r\n    \"defaultManualHandles\": [\r\n      \"operations_and_maintenance\"\r\n    ]\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateProperty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Created property\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.createProperty.name);\r",
+									" }\r",
+									" );\r",
+									"\r",
+									" pm.test(\"Propertyidp\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"     pm.globals.set(\"propertyidp\",jsonData.data.createProperty.id);\r",
+									" }\r",
+									" );\r",
+									"\r",
+									" pm.test(\"Propertynamep\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"     pm.globals.set(\"propertynamep\",jsonData.data.createProperty.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateProperty($input: CreatePropertyInput!) {\r\n  createProperty(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    type\r\n    unit\r\n    value\r\n    permittedValues\r\n    isRequired\r\n    isComplete\r\n    manualHandles\r\n    propertySetId\r\n    projectId\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"name\": \"new\",\r\n    \"description\": null,\r\n    \"type\": \"time\",\r\n    \"unit\": null,\r\n    \"value\": null,\r\n    \"permittedValues\": null,\r\n    \"manualHandles\": [\r\n      \"operations_and_maintenance\"\r\n    ],\r\n    \"isRequired\": false,\r\n    \"propertySetId\": \"{{propertysetidp}}\",\r\n    \"projectId\": \"{{PROID}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Property",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of edited property\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.updateProperty.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation UpdateProperty($input: UpdatePropertyInput!) {\r\n  updateProperty(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    type\r\n    unit\r\n    value\r\n    permittedValues\r\n    isRequired\r\n    isComplete\r\n    manualHandles\r\n    propertySetId\r\n    projectId\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertyidp}}\",\r\n    \"name\": \"new\",\r\n    \"description\": null,\r\n    \"type\": \"text\",\r\n    \"value\": null,\r\n    \"permittedValues\": null,\r\n    \"unit\": null,\r\n    \"isRequired\": false\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Property Set",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Updated PropertySet Name\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.updatePropertySet.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation UpdatePropertySet($input: UpdatePropertySetInput!) {\r\n  updatePropertySet(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    progressPercentage\r\n    objectType\r\n    objectId\r\n    projectId\r\n    project {\r\n      id\r\n      owningOrganisationId\r\n    }\r\n    assignedToOrganisationId\r\n    assignedToOrganisation {\r\n      id\r\n      name\r\n    }\r\n    defaultManualHandles\r\n    aggregateManualHandles\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertysetidp}}\",\r\n    \"name\": \"test\",\r\n    \"description\": \"e\",\r\n    \"assignedToOrganisationId\": \"null\",\r\n    \"defaultManualHandles\": [\r\n      \"operations_and_maintenance\"\r\n    ]\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Property",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Deleted property\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.deleteProperty.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeleteProperty($input: DeleteEntityInput!) {\r\n  deleteProperty(input: $input) {\r\n    id\r\n    propertySetId\r\n    name\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertyidp}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Property Set",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Deleted property\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.deletePropertySet.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeletePropertySet($input: DeleteEntityInput!) {\r\n  deletePropertySet(input: $input) {\r\n    id\r\n    name\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertysetidp}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Package",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Deleted package\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.deleteAssetType.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeleteAssetType($input: DeleteEntityInput!) {\r\n  deleteAssetType(input: $input) {\r\n    id\r\n    name\r\n    classification {\r\n      code\r\n      name\r\n    }\r\n    propertySets {\r\n      items {\r\n        id\r\n        name\r\n        description\r\n        objectId\r\n        objectType\r\n        projectId\r\n        assignedToOrganisationId\r\n        assignedByUserId\r\n        assignedAt\r\n        createdAt\r\n        updatedAt\r\n      }\r\n      nextToken\r\n    }\r\n    projectId\r\n    completedAt\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{packageid}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{Authtoken}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Creation in systems",
+			"item": [
+				{
+					"name": "Create System ",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Created System\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.createSystem.name);\r",
+									" }\r",
+									" );\r",
+									"\r",
+									" pm.test(\"name of Created System building/Facility\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.createSystem.building.name);\r",
+									" }\r",
+									" );\r",
+									"\r",
+									" pm.test(\"ProjectId of Created System \", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.createSystem.projectId);\r",
+									" }\r",
+									" );\r",
+									"\r",
+									" pm.test(\"idss\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.globals.set(\"idss\", jsonData.data.createSystem.id);\r",
+									"}\r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateSystem($input: CreateSystemInput!) {\r\n  createSystem(input: $input) {\r\n    id\r\n    name\r\n    modelGuid\r\n    description\r\n    buildingId\r\n    building {\r\n      id\r\n      modelGuid\r\n      name\r\n      reference\r\n      address {\r\n        nameNumber\r\n        line1\r\n        line2\r\n        city\r\n        county\r\n        postCode\r\n        country\r\n      }\r\n      floors\r\n      projectId\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    projectId\r\n    dataTemplateId\r\n    classificationId\r\n    classification {\r\n      id\r\n      code\r\n      name\r\n    }\r\n    assignedOrganisationIds\r\n    assignedPercent\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"name\": \"Testsys1\",\r\n    \"projectId\": \"{{PROID}}\",\r\n    \"buildingId\": \"{{bldgId}}\",\r\n    \"classificationId\": \"1a185848-c531-4fb4-8071-50e92929cc0d\",\r\n    \"description\": null,\r\n    \"modelGuid\": null\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Property Set",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Created property set\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.createPropertySet.name);\r",
+									" }\r",
+									" );\r",
+									" pm.test(\"propertysetidss\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									" pm.globals.set(\"propertysetidss\",jsonData.data.createPropertySet.id);\r",
+									" }\r",
+									" );\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreatePropertySet($input: CreatePropertySetInput!) {\r\n  createPropertySet(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    progressPercentage\r\n    objectType\r\n    objectId\r\n    projectId\r\n    project {\r\n      id\r\n      owningOrganisationId\r\n    }\r\n    assignedToOrganisationId\r\n    assignedToOrganisation {\r\n      id\r\n      name\r\n    }\r\n    defaultManualHandles\r\n    aggregateManualHandles\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"objectId\": \"{{idss}}\",\r\n    \"name\": \"test1\",\r\n    \"description\": null,\r\n    \"objectType\": \"Building\",\r\n    \"projectId\": \"{{PROID}}\",\r\n    \"defaultManualHandles\": [\r\n      \"structural_safety\"\r\n    ]\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateProperty",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Created property\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.createProperty.name);\r",
+									" }\r",
+									" );\r",
+									" pm.test(\"propertyidss\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.globals.set(\"propertyidss\", jsonData.data.createProperty.id);\r",
+									"}\r",
+									");\r",
+									" pm.test(\"Propertynamess\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"     pm.globals.set(\"propertynamess\",jsonData.data.createProperty.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateProperty($input: CreatePropertyInput!) {\r\n  createProperty(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    type\r\n    unit\r\n    value\r\n    permittedValues\r\n    isRequired\r\n    isComplete\r\n    manualHandles\r\n    propertySetId\r\n    projectId\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"name\": \"test\",\r\n    \"description\": null,\r\n    \"type\": \"date_time\",\r\n    \"unit\": null,\r\n    \"value\": null,\r\n    \"permittedValues\": null,\r\n    \"manualHandles\": [\r\n      \"structural_safety\"\r\n    ],\r\n    \"isRequired\": true,\r\n    \"propertySetId\": \"{{propertysetidss}}\",\r\n    \"projectId\": \"{{PROID}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Property Set",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Updated Propertyset name\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.updatePropertySet.name);\r",
+									" }\r",
+									" );\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation UpdatePropertySet($input: UpdatePropertySetInput!) {\r\n  updatePropertySet(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    progressPercentage\r\n    objectType\r\n    objectId\r\n    projectId\r\n    project {\r\n      id\r\n      owningOrganisationId\r\n    }\r\n    assignedToOrganisationId\r\n    assignedToOrganisation {\r\n      id\r\n      name\r\n    }\r\n    defaultManualHandles\r\n    aggregateManualHandles\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertysetidss}}\",\r\n    \"name\": \"Testingop\",\r\n    \"description\": null,\r\n    \"assignedToOrganisationId\": \"63a142a1-3cdc-4ecc-ac11-223b8481d488\",\r\n    \"defaultManualHandles\": [\r\n      \"structural_safety\"\r\n    ]\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Property",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Updated Property name\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.updateProperty.name);\r",
+									" }\r",
+									" );\r",
+									" "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation UpdateProperty($input: UpdatePropertyInput!) {\r\n  updateProperty(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    type\r\n    unit\r\n    value\r\n    permittedValues\r\n    isRequired\r\n    isComplete\r\n    manualHandles\r\n    propertySetId\r\n    projectId\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertyidss}}\",\r\n    \"name\": \"new1\",\r\n    \"description\": null,\r\n    \"type\": \"file\",\r\n    \"value\": null,\r\n    \"permittedValues\": null,\r\n    \"unit\": null,\r\n    \"isRequired\": true\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Property",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Deleted property\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.deleteProperty.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeleteProperty($input: DeleteEntityInput!) {\r\n  deleteProperty(input: $input) {\r\n    id\r\n    propertySetId\r\n    name\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertyidss}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Property Set",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Deleted property\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.deletePropertySet.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeletePropertySet($input: DeleteEntityInput!) {\r\n  deletePropertySet(input: $input) {\r\n    id\r\n    name\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertysetidss}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete System",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Deleted System\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.deleteSystem.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeleteSystem($input: DeleteEntityInput!) {\r\n  deleteSystem(input: $input) {\r\n    id\r\n    name\r\n    projectId\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{idss}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "oauth2",
+				"oauth2": {
+					"tokenType": "Bearer",
+					"accessToken": "eyJraWQiOiJnS3JXK1lmWGRtWnRVbjJ3OVVtTldJakxBbjV5S1VtdzdYUEFubGZ5aTFBPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJhYjA3ZWJkNy1jNjc3LTRhYjctOTU5NS01Y2M1YWQyNDVlMDMiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAuZXUtd2VzdC0yLmFtYXpvbmF3cy5jb21cL2V1LXdlc3QtMl93OVI0WnM4Q3oiLCJ2ZXJzaW9uIjoyLCJjbGllbnRfaWQiOiI1bWt1aXZhZG9kcHQ5MHFrOGFmcDc5MzBuZSIsImV2ZW50X2lkIjoiMzIyYzRhNmUtZmQ3NC00NmZkLWFlZjQtZDU4ZWY3NmIwN2ViIiwidG9rZW5fdXNlIjoiYWNjZXNzIiwic2NvcGUiOiJvcGVuaWQgZW1haWwiLCJhdXRoX3RpbWUiOjE2Nzc2NzMzMzIsImV4cCI6MTY3NzY3NjkzMiwiaWF0IjoxNjc3NjczMzMyLCJqdGkiOiI5NTE4NTA0Ni1hMDUzLTRlMWItYTU2OS04NjI2NWI5N2YwZjYiLCJ1c2VybmFtZSI6ImFiMDdlYmQ3LWM2NzctNGFiNy05NTk1LTVjYzVhZDI0NWUwMyJ9.ojLiysAiuDTCqBY0Xb3BCMPNI_ckiBva8LH3bqsJ1rnjvaiXDwme50U3s5BxFBpZbJsvtI_6un9Etj5b4lHSDnphhIW8_9gIk3ekz8-SXn5W__IeHva8CdSqUys782gcKObOKSF6ge2FWVBPFN-EVho48exl_xdLL6-iaVTIKD3fNdLJ9rKNOboID98B6vrvFUl25GmAcCxApxcvsd1xGFk9qByMjskQI_cL68mMh2DcHEh4sEMhk_fW75GICQeLpMixHvUm55puWZswanuh0QL8hmYzP7Gpvri5AcXjYS5iCU1s1yxXqyCYQ7Xiv6E_Jty1leTjlI-0HJ82tUFGOA",
+					"tokenName": "Authtr1",
+					"challengeAlgorithm": "S256",
+					"redirect_uri": "http://localhost/",
+					"grant_type": "implicit",
+					"clientId": "5mkuivadodpt90qk8afp7930ne",
+					"authUrl": "https://om-test.auth.eu-west-2.amazoncognito.com/login",
+					"addTokenTo": "header",
+					"client_authentication": "header",
+					"headerPrefix": ""
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Creation in Components",
+			"item": [
+				{
+					"name": "Add Property Set",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Created property set\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.createPropertySet.name);\r",
+									" }\r",
+									" );\r",
+									" pm.test(\"propertysetidc\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									" pm.globals.set(\"propertysetidc\",jsonData.data.createPropertySet.id);\r",
+									" }\r",
+									" );\r",
+									"\r",
+									" pm.test(\"componentid\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									" pm.globals.set(\"componentid\",jsonData.data.createPropertySet.objectId);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"tokenName": "Authtr2",
+								"addTokenTo": "header",
+								"clientId": "{{clientId}}",
+								"authUrl": "https://om-test.auth.eu-west-2.amazoncognito.com/login",
+								"redirect_uri": "http://localhost/",
+								"grant_type": "implicit",
+								"headerPrefix": ""
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreatePropertySet($input: CreatePropertySetInput!) {\r\n  createPropertySet(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    progressPercentage\r\n    objectType\r\n    objectId\r\n    projectId\r\n    project {\r\n      id\r\n      owningOrganisationId\r\n    }\r\n    assignedToOrganisationId\r\n    assignedToOrganisation {\r\n      id\r\n      name\r\n    }\r\n    defaultManualHandles\r\n    aggregateManualHandles\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"objectId\": \"e11593df-a294-46d8-bf3b-0281b1a3e339\",\r\n    \"name\": \"test\",\r\n    \"description\": null,\r\n    \"objectType\": \"Asset\",\r\n    \"projectId\": \"2fedc24b-91d7-4c5f-a643-88ddba12455e\",\r\n    \"defaultManualHandles\": [\r\n      \"operationsAndMaintenance\"\r\n    ]\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Property",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Created property\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.createProperty.name);\r",
+									" }\r",
+									" );\r",
+									" pm.test(\"propertyidC\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.globals.set(\"propertyidc\", jsonData.data.createProperty.id);\r",
+									"}\r",
+									");\r",
+									" pm.test(\"PropertynameC\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"     pm.globals.set(\"propertynamec\",jsonData.data.createProperty.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"tokenName": "Authtr2",
+								"addTokenTo": "header",
+								"clientId": "{{clientId}}",
+								"authUrl": "https://om-test.auth.eu-west-2.amazoncognito.com/login",
+								"redirect_uri": "http://localhost/",
+								"grant_type": "implicit",
+								"headerPrefix": ""
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateProperty($input: CreatePropertyInput!, $condition: ModelPropertyConditionInput) {\r\n  createProperty(input: $input, condition: $condition) {\r\n    id\r\n    name\r\n    type\r\n    unit\r\n    description\r\n    isRequired\r\n    propertySetId\r\n    updatedById\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"name\": \"test\",\r\n    \"description\": null,\r\n    \"type\": \"email\",\r\n    \"unit\": null,\r\n    \"value\": null,\r\n    \"manualHandles\": [\"fire_safety\"],\r\n    \"isRequired\": true,\r\n    \"propertySetId\": \"{{propertysetidc}}\",\r\n    \"projectId\": \"756ebdbe-fab8-4039-9ee7-f258f87c8971\",\r\n    \"updatedById\": null\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Set and Edit Property",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Updated Property name\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.updateProperty.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"tokenName": "Authtr2",
+								"addTokenTo": "header",
+								"clientId": "{{clientId}}",
+								"authUrl": "https://om-test.auth.eu-west-2.amazoncognito.com/login",
+								"redirect_uri": "http://localhost/",
+								"grant_type": "implicit",
+								"headerPrefix": ""
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation UpdateProperty($input: UpdatePropertyInput!, $condition: ModelPropertyConditionInput) {\r\n  updateProperty(input: $input, condition: $condition) {\r\n    id\r\n    name\r\n    type\r\n    unit\r\n    value\r\n    description\r\n    updatedById\r\n    updatedBy {\r\n      id\r\n      email\r\n      firstName\r\n      lastName\r\n      role\r\n      organisationId\r\n    }\r\n    attachments {\r\n      items {\r\n        id\r\n        name\r\n        description\r\n        size\r\n        propertyId\r\n        url\r\n        uploadUrl\r\n        createdAt\r\n        updatedAt\r\n      }\r\n      nextToken\r\n    }\r\n    isRequired\r\n    propertySetId\r\n    comments {\r\n      id\r\n      comment\r\n      createdBy {\r\n        id\r\n        email\r\n        firstName\r\n        lastName\r\n        role\r\n        organisationId\r\n      }\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    manualHandles\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertyidc}}\",\r\n    \"name\": \"{{propertynamec}}\",\r\n    \"description\": null,\r\n    \"type\": \"file_drawing\",\r\n    \"unit\": null,\r\n    \"value\": null,\r\n    \"manualHandles\": [\r\n      \"health_and_safety\"\r\n    ],\r\n    \"isRequired\": true,\r\n    \"propertySetId\": \"{{propertysetidc}}\",\r\n    \"projectId\": null,\r\n    \"updatedById\": null\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Property",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Deleted property\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.deleteProperty.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"tokenName": "Authtr2",
+								"addTokenTo": "header",
+								"clientId": "{{clientId}}",
+								"authUrl": "https://om-test.auth.eu-west-2.amazoncognito.com/login",
+								"redirect_uri": "http://localhost/",
+								"grant_type": "implicit",
+								"headerPrefix": ""
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeleteProperty($input: DeletePropertyInput!, $condition: ModelPropertyConditionInput) {\r\n  deleteProperty(input: $input, condition: $condition) {\r\n    id\r\n    name\r\n    propertySetId\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertyidc}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Property Set",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of Deleted property\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.deletePropertySet.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"tokenName": "Authtr2",
+								"addTokenTo": "header",
+								"clientId": "{{clientId}}",
+								"authUrl": "https://om-test.auth.eu-west-2.amazoncognito.com/login",
+								"redirect_uri": "http://localhost/",
+								"grant_type": "implicit",
+								"headerPrefix": ""
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeletePropertySet($input: DeletePropertySetInput!, $condition: ModelPropertySetConditionInput) {\r\n  deletePropertySet(input: $input, condition: $condition) {\r\n    id\r\n    name\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertysetidc}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Component",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"tokenName": "Authtr2",
+								"addTokenTo": "header",
+								"clientId": "{{clientId}}",
+								"authUrl": "https://om-test.auth.eu-west-2.amazoncognito.com/login",
+								"redirect_uri": "http://localhost/",
+								"grant_type": "implicit",
+								"headerPrefix": ""
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeleteAsset($input: DeleteAssetInput!, $condition: ModelAssetConditionInput) {\r\n  deleteAsset(input: $input, condition: $condition) {\r\n    id\r\n    modelGuid\r\n    name\r\n    description\r\n    buildingId\r\n    building {\r\n      id\r\n      modelGuid\r\n      name\r\n      reference\r\n      floors\r\n      projectId\r\n      assignedPercent\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    floorId\r\n    floor {\r\n      id\r\n      buildingId\r\n      projectId\r\n      name\r\n      reference\r\n      description\r\n      projectId\r\n      buildingId\r\n      modelGuid\r\n    }\r\n    spaceId\r\n    space {\r\n      id\r\n      modelGuid\r\n      name\r\n      number\r\n      description\r\n      floorArea\r\n      height\r\n      perimeter\r\n      classification {\r\n        code\r\n        name\r\n      }\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    assetTypeId\r\n    assetType {\r\n      id\r\n      name\r\n      modelGuid\r\n      projectId\r\n      propertySets {\r\n        nextToken\r\n      }\r\n      assets {\r\n        nextToken\r\n      }\r\n      completedAt\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    propertySets {\r\n      items {\r\n        id\r\n        name\r\n        description\r\n        objectId\r\n        createdAt\r\n        updatedAt\r\n      }\r\n      nextToken\r\n    }\r\n    completedAt\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{componentid}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Assigned/Unassigned",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Assigned Organisation Name\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.updatePropertySet.assignedToOrganisation.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": {
+								"tokenName": "Authtr2",
+								"addTokenTo": "header",
+								"clientId": "{{clientId}}",
+								"authUrl": "https://om-test.auth.eu-west-2.amazoncognito.com/login",
+								"redirect_uri": "http://localhost/",
+								"grant_type": "implicit",
+								"headerPrefix": ""
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation UpdatePropertySet($input: UpdatePropertySetInput!) {\r\n  updatePropertySet(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    objectId\r\n    assignedToOrganisationId\r\n    assignedToOrganisation {\r\n      id\r\n      name\r\n      email\r\n      type\r\n      logoFileType\r\n      logoUrl\r\n      logoUploadUrl\r\n      iconFileType\r\n      iconUrl\r\n      iconUploadUrl\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    assignedByUserId\r\n    assignedByUser {\r\n      id\r\n      email\r\n      firstName\r\n      lastName\r\n    }\r\n    aggregateManualHandles\r\n    defaultManualHandles\r\n    assignedAt\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"id\": \"{{propertysetidc}}\",\r\n    \"name\": \"{{propertynamec}}\",\r\n    \"description\": null,\r\n    \"assignedToOrganisationId\": \"657a1d6c-0461-44aa-8bb3-a72aebffb9ca\",\r\n    \"defaultManualHandles\": [\r\n      \"operations_and_maintenance\"\r\n    ]\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Assets",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation deleteAsset{\r\ndeleteAsset(input: {id: \"ffbed293-4c9a-45d9-b033-6966ece050bb\"}) {\r\n    id\r\n    name\r\n    isDeleted\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "oauth2",
+				"oauth2": {
+					"addTokenTo": "header"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Manuals",
+			"item": [
+				{
+					"name": "Searching Manuals Handles",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"type after selecting tab in O&M\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"      for(var i=0;i<jsonData.data.searchEntities.items.length;i++)\r",
+									"        {\r",
+									"     \r",
+									"         console.log(jsonData.data.searchEntities.items[i].type);\r",
+									"        }\r",
+									" }\r",
+									" );\r",
+									"\r",
+									"pm.test(\"Search Enties name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"      for(var i=0;i<jsonData.data.searchEntities.items.length;i++)\r",
+									"        {\r",
+									"     \r",
+									"         console.log(jsonData.data.searchEntities.items[i].name);\r",
+									"        }\r",
+									" }\r",
+									" );\r",
+									"\r",
+									"\r",
+									"pm.test(\"itemid\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"   \r",
+									"            pm.globals.set(\"itemid\",jsonData.data.searchEntities.items[0].id);\r",
+									"        \r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query SearchEntities($input: SearchableEntitiesInput!, $filter: SearchableEntitiesFilterInput, $sort: [SearchableEntitiesSortInput], $limit: Int, $nextToken: String, $from: Int) {\r\n  searchEntities(input: $input, filter: $filter, sort: $sort, limit: $limit, nextToken: $nextToken, from: $from) {\r\n    items {\r\n      id\r\n      type\r\n      name\r\n      description\r\n      attachmentId\r\n      attachment {\r\n        id\r\n        name\r\n        description\r\n        size\r\n        propertyId\r\n        projectId\r\n        copyFromId\r\n        url\r\n        uploadUrl\r\n        createdAt\r\n        updatedAt\r\n      }\r\n      propertyId\r\n      property {\r\n        id\r\n        name\r\n        type\r\n        unit\r\n        value\r\n        description\r\n        isRequired\r\n        isComplete\r\n        propertySetId\r\n        projectId\r\n        manualHandles\r\n        permittedValues\r\n        isDeleted\r\n        createdAt\r\n        updatedAt\r\n      }\r\n      propertySetId\r\n      propertySet {\r\n        id\r\n        name\r\n        description\r\n        objectId\r\n        objectType\r\n        progressPercentage\r\n        projectId\r\n        assignedToOrganisationId\r\n        assignedByUserId\r\n        assignedAt\r\n        defaultManualHandles\r\n        aggregateManualHandles\r\n        isDeleted\r\n        createdAt\r\n        updatedAt\r\n      }\r\n      projectId\r\n      project {\r\n        id\r\n        title\r\n        reference\r\n        sector\r\n        budget\r\n        floors\r\n        clientId\r\n        owningOrganisationId\r\n        dutyHolderId\r\n        createdById\r\n        changeComment\r\n        isComplete\r\n        scheduledEmailId\r\n        allowVerification\r\n        completedAt\r\n        completedById\r\n        isDeleted\r\n        createdAt\r\n        updatedAt\r\n      }\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    total\r\n    nextToken\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"projectIds\": [\r\n      \"{{PROID}}\"\r\n    ],\r\n    \"query\": \"TestB11\"\r\n  },\r\n  \"limit\": 20,\r\n  \"nextToken\": null,\r\n  \"filter\": {\r\n    \"type\": \"Building\"\r\n  },\r\n  \"sort\": [\r\n    {\r\n      \"field\": \"name\",\r\n      \"direction\": \"asc\"\r\n    }\r\n  ]\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchPropertySets",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"psetsid\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"   \r",
+									"            pm.globals.set(\"psetsid\",jsonData.data.searchPropertySets.items[0].id);  \r",
+									" }\r",
+									" );\r",
+									"pm.test(\"OBJECTID\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"   \r",
+									"            pm.globals.set(\"OID\",jsonData.data.searchPropertySets.items[0].objectId);  \r",
+									" }\r",
+									" );\r",
+									"pm.test(\"ManualHandle\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"   \r",
+									"            pm.globals.set(\"ManualHandle\",jsonData.data.searchPropertySets.items[0].defaultManualHandles);  \r",
+									" }\r",
+									" );\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query SearchPropertySets($input: SearchableEntityInput!, $filter: SearchablePropertySetFilterInput, $sort: [SearchablePropertySetSortInput], $limit: Int, $nextToken: String, $from: Int) {\r\n  searchPropertySets(input: $input, filter: $filter, sort: $sort, limit: $limit, nextToken: $nextToken, from: $from) {\r\n    items {\r\n      id\r\n      name\r\n      description\r\n      progressPercentage\r\n      objectType\r\n      objectId\r\n      projectId\r\n      project {\r\n        id\r\n        owningOrganisationId\r\n      }\r\n      assignedToOrganisationId\r\n      assignedToOrganisation {\r\n        id\r\n        name\r\n      }\r\n      defaultManualHandles\r\n      aggregateManualHandles\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    nextToken\r\n    total\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"projectIds\": [\r\n      \"{{PROID}}\"\r\n    ]\r\n  },\r\n  \"limit\": null,\r\n  \"nextToken\": null,\r\n  \"filter\": {\r\n    \"and\": [\r\n      {\r\n        \"objectId\": {\r\n          \"eq\": \"{{itemid}}\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"building_assessment_certificate_application\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"building_safety_case\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"change_control_management\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"completion_certificate_application\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"construction_control_plan\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"contravention_notices\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"evacuation_strategy\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"fire_safety\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"fire_safety_management\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"fire_statement_form\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"fire_and_emergency_file\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"gateway_checklist\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"higher_risk_building_registration\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"key_building_information\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"management_of_building_safety_risks\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"mandatory_occurrence_report\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"partial_completion_strategy\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"pre_application_consultation\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"relevant_recurring_complaints\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"resident_engagement_pack\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"resident_engagement_strategy\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"safety_case_report\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"secure_information_box\"\r\n        }\r\n      },\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"ne\": \"structural_risks\"\r\n        }\r\n      }\r\n    ]\r\n  },\r\n  \"sort\": [\r\n    {\r\n      \"field\": \"name\",\r\n      \"direction\": \"asc\"\r\n    }\r\n  ]\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchProperties",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query SearchProperties($input: SearchableEntityInput!, $filter: SearchablePropertyFilterInput, $sort: [SearchablePropertySortInput], $limit: Int, $nextToken: String, $from: Int) {\r\n  searchProperties(input: $input, filter: $filter, sort: $sort, limit: $limit, nextToken: $nextToken, from: $from) {\r\n    items {\r\n      id\r\n      name\r\n      description\r\n      type\r\n      unit\r\n      value\r\n      permittedValues\r\n      isRequired\r\n      isComplete\r\n      manualHandles\r\n      propertySetId\r\n      projectId\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    nextToken\r\n    total\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"projectIds\": [\r\n      \"{{PROID}}\"\r\n    ]\r\n  },\r\n  \"limit\": null,\r\n  \"nextToken\": null,\r\n  \"filter\": {\r\n    \"propertySetId\": {\r\n      \"eq\": \"{{psetsid}}\"\r\n    }\r\n  },\r\n  \"sort\": [\r\n    {\r\n      \"field\": \"name\",\r\n      \"direction\": \"asc\"\r\n    }\r\n  ]\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Manual Favourites",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"name of created shortcut property set\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    {\r",
+									"         console.log(jsonData.data.createShortcut.name);\r",
+									"    }\r",
+									" }\r",
+									" );\r",
+									" pm.test(\"Name of Manual Handle Type\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    {\r",
+									"         console.log(jsonData.data.createShortcut.manualHandleType);\r",
+									"    }\r",
+									" }\r",
+									" );\r",
+									" pm.test(\"createShortcutid\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"   \r",
+									"            pm.globals.set(\"Csetid\",jsonData.data.createShortcut.id);  \r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateShortcut($input: CreateShortcutInput!, $condition: ModelShortcutConditionInput) {\r\n  createShortcut(input: $input, condition: $condition) {\r\n    id\r\n    name\r\n    propertySetId\r\n    objectId\r\n    projectId\r\n    objectType\r\n    manualHandleType\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"name\": \"new\",\r\n    \"propertySetId\": \"{{psetsid}}\",\r\n    \"objectId\": \"{{OID}}\",\r\n    \"projectId\": \"{{PROID}}\",\r\n    \"objectType\": \"Building\",\r\n    \"manualHandleType\": \"{{ManualHandle}}\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Building Safety",
+			"item": [
+				{
+					"name": "Search Property Set",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query SearchPropertySets($input: SearchableEntityInput!, $filter: SearchablePropertySetFilterInput, $sort: [SearchablePropertySetSortInput], $limit: Int, $nextToken: String, $from: Int) {\r\n  searchPropertySets(input: $input, filter: $filter, sort: $sort, limit: $limit, nextToken: $nextToken, from: $from) {\r\n    items {\r\n      id\r\n      name\r\n      description\r\n      progressPercentage\r\n      objectType\r\n      objectId\r\n      projectId\r\n      project {\r\n        id\r\n        owningOrganisationId\r\n      }\r\n      assignedToOrganisationId\r\n      assignedToOrganisation {\r\n        id\r\n        name\r\n      }\r\n      defaultManualHandles\r\n      aggregateManualHandles\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    nextToken\r\n    total\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"projectIds\": [\r\n      \"938d9706-de29-4e8e-adbe-caa0c85c1672\"\r\n    ]\r\n  },\r\n  \"limit\": null,\r\n  \"nextToken\": null,\r\n  \"filter\": {\r\n    \"and\": [\r\n      {\r\n        \"defaultManualHandles\": {\r\n          \"eq\": \"health_and_safety\"\r\n        }\r\n      },\r\n      {\r\n        \"objectId\": {\r\n          \"eq\": \"53f26fc1-443b-4386-bc33-34fe4144036a\"\r\n        }\r\n      }\r\n    ]\r\n  },\r\n  \"sort\": [\r\n    {\r\n      \"field\": \"name\",\r\n      \"direction\": \"asc\"\r\n    }\r\n  ]\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Properties",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query SearchProperties($input: SearchableEntityInput!, $filter: SearchablePropertyFilterInput, $sort: [SearchablePropertySortInput], $limit: Int, $nextToken: String, $from: Int) {\r\n  searchProperties(input: $input, filter: $filter, sort: $sort, limit: $limit, nextToken: $nextToken, from: $from) {\r\n    items {\r\n      id\r\n      name\r\n      description\r\n      type\r\n      unit\r\n      value\r\n      permittedValues\r\n      isRequired\r\n      isComplete\r\n      manualHandles\r\n      propertySetId\r\n      projectId\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    nextToken\r\n    total\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"projectIds\": [\r\n      \"938d9706-de29-4e8e-adbe-caa0c85c1672\"\r\n    ]\r\n  },\r\n  \"limit\": null,\r\n  \"nextToken\": null,\r\n  \"filter\": {\r\n    \"propertySetId\": {\r\n      \"eq\": \"0c830f2f-ef7c-46e2-ad5e-4fd605099974\"\r\n    }\r\n  },\r\n  \"sort\": [\r\n    {\r\n      \"field\": \"name\",\r\n      \"direction\": \"asc\"\r\n    }\r\n  ]\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Zone",
+			"item": [
+				{
+					"name": "CreateZone",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Created Zone Name\", function () \r",
+									" {\r",
+									"    var jsonData = pm.response.json();\r",
+									"     console.log(\"Zone Name\", jsonData.data.createZone.name);\r",
+									" }\r",
+									" );\r",
+									" pm.test(\"Zoneid global variable\", function () \r",
+									" {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.globals.set(\"Zoneid\", jsonData.data.createZone.id);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateZone {\r\n  createZone(input: {name: \"Test Zone1\", projectId: \"4698de97-ee29-466c-8cc1-4136a9b6c5e7\" }) {\r\n    id\r\n    name\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Updatezone",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Updated Zone Name\", function () \r",
+									" {\r",
+									"    var jsonData = pm.response.json();\r",
+									"     console.log(\"Zone Name\", jsonData.data.updateZone.name);\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation UpdateZone {\r\n  updateZone(input: {id: \"{{Zoneid}}\", name: \"Test Zone Ab\", updatedByUserId: \"cfac72d7-72df-4a6a-89e9-6cb5c3381adb\"}) {\r\n    id\r\n    name\r\n    updatedByUserId\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteZone",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation DeleteZone {\r\n  deleteZone(input: {id: \"c5639c60-4a5f-4ee2-9309-f116d4ca4fc2\"}) {\r\n    id\r\n    name\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "GetZone",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query GetZone {\r\n  getZone(id: \"{{Zoneid}}\") {\r\n    id\r\n    name\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Zone",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query SearchZones {\r\n  searchZones(input: {projectIds: \"55081380-f3d4-4949-a031-0fe4b9cbca8b\"}) {\r\n    items {\r\n      id\r\n      name\r\n    }\r\n    total\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Property Set",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" pm.test(\"Property Set Id\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									" pm.globals.set(\"ZId\", jsonData.data.createPropertySet.id);\r",
+									"}\r",
+									" );\r",
+									" "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreatePropertySet($input: CreatePropertySetInput!) {\r\n  createPropertySet(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    progressPercentage\r\n    objectType\r\n    objectId\r\n    projectId\r\n    project {\r\n      id\r\n      owningOrganisationId\r\n    }\r\n    assignedToOrganisationId\r\n    assignedToOrganisation {\r\n      id\r\n      name\r\n    }\r\n    defaultManualHandles\r\n    aggregateManualHandles\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"objectId\": \"{{Zoneid}}\",\r\n    \"name\": \"test\",\r\n    \"description\": null,\r\n    \"objectType\": \"Zone\",\r\n    \"projectId\": \"04792501-9946-4438-b921-3df9187806bb\",\r\n    \"defaultManualHandles\": [\r\n      \"operations_and_maintenance\"\r\n    ]\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Property",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation CreateProperty($input: CreatePropertyInput!) {\r\n  createProperty(input: $input) {\r\n    id\r\n    name\r\n    description\r\n    type\r\n    unit\r\n    value\r\n    permittedValues\r\n    isRequired\r\n    isComplete\r\n    manualHandles\r\n    propertySetId\r\n    projectId\r\n    createdAt\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"name\": \"web\",\r\n    \"description\": null,\r\n    \"type\": \"yes_no\",\r\n    \"unit\": null,\r\n    \"value\": \"false\",\r\n    \"permittedValues\": null,\r\n    \"manualHandles\": [\r\n      \"operations_and_maintenance\"\r\n    ],\r\n    \"isRequired\": true,\r\n    \"propertySetId\": \"{{ZID}}\",\r\n    \"projectId\": \"04792501-9946-4438-b921-3df9187806bb\"\r\n  }\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DataTemplate",
+			"item": [
+				{
+					"name": "PopuplateDT",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation MyMutation {\r\n  populateFromDataTemplate(input: {objectId: \"463d4b81-71a1-4928-9849-b302a8a1d631\", objectType: System, dataTemplateId: \"e077db38-b90b-4ff9-b5c6-e051542824d0\"}) {\r\n    propertyCount\r\n    propertySetCount\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "getupdatedAt",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query MyQuery2 {\r\n  getSystem(id: \"463d4b81-71a1-4928-9849-b302a8a1d631\") {\r\n    id\r\n    name\r\n    updatedAt\r\n  }\r\n}\r\n",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "getpropertysets",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query MyQuery {\r\n  searchVisiblePropertySets(input: {projectId: \"2f5435fa-6066-4e97-9196-23d3b991283a\"}, filter: {objectId: {eq: \"463d4b81-71a1-4928-9849-b302a8a1d631\"}}) {\r\n    items {\r\n      id\r\n      isDeleted\r\n      name\r\n      objectId\r\n      objectType\r\n      projectId\r\n      updatedAt\r\n      aggregateManualHandles\r\n      createdAt\r\n      defaultManualHandles\r\n      description\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "getproperties",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query MyQuery {\r\n  searchVisibleProperties(input: {projectId: \"2f5435fa-6066-4e97-9196-23d3b991283a\"}, filter: {propertySetId: {eq: \"ed438327-ebed-429a-8f74-d910b705659f\"}}) {\r\n    items {\r\n      id\r\n      projectId\r\n      propertySetId\r\n      createdAt\r\n      isDeleted\r\n      isRequired\r\n      manualHandles\r\n      name\r\n      permittedValues\r\n      type\r\n      unit\r\n      updatedAt\r\n      updatedById\r\n      value\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Search queries",
+			"item": [
+				{
+					"name": "SearchBuildings",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Building Name\", function () \r",
+									" {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    for(var i=0;i<jsonData.data.searchBuildings.items.length;i++)\r",
+									"        {\r",
+									"     console.log(\"Buildings Name\", jsonData.data.searchBuildings.items[i].name);\r",
+									"        }\r",
+									" }       \r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query Search {\r\n  searchBuildings(\r\n      input: {projectIds: \"c50801db-01fc-41f7-ac45-26f77acda778\"}, \r\n      filter: {\r\n          \r\n      and: [\r\n        {\r\n          id: {\r\n            eq: \"c69e2235-5977-4cd6-bef8-e17d6dd8eddf\"\r\n          }\r\n        }\r\n      ]\r\n    },\r\n      limit: 5\r\n    ) {\r\n    items {\r\n      id\r\n      name\r\n      isDeleted\r\n      aggregateManualHandles\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Property sets",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query Search\r\n{\r\n    searchPropertySets(input: {projectIds: \"25fdd5ec-cdcb-423a-9fb0-5dd52e56cfbf\"},filter:{\r\n        objectId:{eq:\"66921ded-c3c5-4ec0-9207-2fe2b989d35e\"}\r\n    } )  {\r\n    items {\r\n      id\r\n      name\r\n      isDeleted\r\n      defaultManualHandles\r\n      aggregateManualHandles\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Property",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query search\r\n{\r\nsearchProperties(input: {projectId: \"2f5435fa-6066-4e97-9196-23d3b991283a\"}, limit: 5) {\r\n    items {\r\n      id\r\n      name\r\n      isDeleted\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchFloor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Floors Name\", function () \r",
+									" {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    for(var i=0;i<jsonData.data.searchFloors.items.length;i++)\r",
+									"        {\r",
+									"           console.log(\"Floors Name\", jsonData.data.searchFloors.items[i].name);\r",
+									"        }\r",
+									" }       \r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query searchFloors {\r\n  searchFloors(input: {projectIds: \"{{PROID}}\"}) {\r\n     items {\r\n      id\r\n      name\r\n      isDeleted\r\n      aggregateManualHandles\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Space",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Space Name\", function () \r",
+									" {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    for(var i=0;i<jsonData.data.searchSpaces.items.length;i++)\r",
+									"        {\r",
+									"           console.log(\"Space Name\", jsonData.data.searchSpaces.items[i].name);\r",
+									"        }\r",
+									" }       \r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query Search {\r\n  searchSpaces(input: {projectIds: \"abf45f37-0724-4572-a927-1309ad0ab50e\"}, limit: 10) {\r\n    items {\r\n      id\r\n      name\r\n      isDeleted\r\n      aggregateManualHandles\r\n    }\r\n    total\r\n  }\r\n}\r\n\r\n\r\n\r\n\r\n",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "search Asset Types",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"AssetType Name\", function () \r",
+									" {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    for(var i=0;i<jsonData.data.searchAssetTypes.items.length;i++)\r",
+									"        {\r",
+									"           console.log(\"AssetType Name\", jsonData.data.searchAssetTypes.items[i].name);\r",
+									"        }\r",
+									" }       \r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": " query search\r\n {\r\n searchAssetTypes(input: {projectIds: \"abf45f37-0724-4572-a927-1309ad0ab50e\"}) {\r\n    items {\r\n      id\r\n      name\r\n      isDeleted\r\n      aggregateManualHandles\r\n    }\r\n  }\r\n }",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Systems",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"System Name\", function () \r",
+									" {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    for(var i=0;i<jsonData.data.searchSystems.items.length;i++)\r",
+									"        {\r",
+									"           console.log(\"System Name\", jsonData.data.searchSystems.items[i].name);\r",
+									"        }\r",
+									" }       \r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query SearchSystems {\r\n  searchSystems(input: {projectIds: \"{{PROID}}\"}) {\r\n     items {\r\n      id\r\n      name\r\n      isDeleted\r\n      aggregateManualHandles\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Assets",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Assets Name\", function () \r",
+									" {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    for(var i=0;i<jsonData.data.searchAssets.items.length;i++)\r",
+									"        {\r",
+									"           console.log(\"Assets Name\", jsonData.data.searchAssets.items[i].name);\r",
+									"        }\r",
+									" }       \r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query SearchAssets($input: SearchableEntityInput!, $filter: SearchableAssetFilterInput, $sort: [SearchableAssetSortInput], $limit: Int, $nextToken: String, $from: Int) {\r\n  searchAssets(input: $input, filter: $filter, sort: $sort, limit: $limit, nextToken: $nextToken, from: $from) {\r\n    items {\r\n      id\r\n      modelGuid\r\n      name\r\n      description\r\n      assetTypeId\r\n      assetType {\r\n        id\r\n        name\r\n        projectId\r\n        completedAt\r\n        aggregateManualHandles\r\n        manualHandles\r\n        createdAt\r\n        updatedAt\r\n      }\r\n      spaceId\r\n      space {\r\n        id\r\n        name\r\n        number\r\n        floorId\r\n        buildingId\r\n        projectId\r\n        aggregateManualHandles\r\n        manualHandles\r\n        createdAt\r\n        updatedAt\r\n      }\r\n      floorId\r\n      floor {\r\n        id\r\n        name\r\n        buildingId\r\n        projectId\r\n        dataTemplateId\r\n        aggregateManualHandles\r\n        manualHandles\r\n        createdAt\r\n        updatedAt\r\n      }\r\n      buildingId\r\n      building {\r\n        id\r\n        name\r\n        projectId\r\n        aggregateManualHandles\r\n        manualHandles\r\n        createdAt\r\n        updatedAt\r\n      }\r\n      projectId\r\n      project {\r\n        id\r\n        title\r\n        clientId\r\n        owningOrganisationId\r\n        allowVerification\r\n        createdAt\r\n        updatedAt\r\n      }\r\n      dataTemplateId\r\n      dataTemplate {\r\n        id\r\n        name\r\n      }\r\n      propertySets {\r\n        nextToken\r\n      }\r\n      completedAt\r\n      assignedPercent\r\n      systemId\r\n      system {\r\n        id\r\n        name\r\n        description\r\n        classificationId\r\n        buildingId\r\n        projectId\r\n        aggregateManualHandles\r\n        manualHandles\r\n        createdAt\r\n        updatedAt\r\n      }\r\n      aggregateManualHandles\r\n      manualHandles\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    nextToken\r\n    total\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"projectIds\": [\r\n      \"da4e892a-e8fb-461b-9f30-d7dfe32af1fc\"\r\n    ]\r\n  },\r\n  \"limit\": null,\r\n  \"nextToken\": null,\r\n  \"filter\": {\r\n    \"and\": [\r\n      {\r\n        \"buildingId\": {\r\n          \"eq\": \"17d18fff-78f3-494a-ad31-ff13c84969b8\"\r\n        }\r\n      }\r\n    ]\r\n  },\r\n  \"sort\": [\r\n    {\r\n      \"field\": \"name\",\r\n      \"direction\": \"asc\"\r\n    }\r\n  ]\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchAllBuildings",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query Search {\r\n  searchAllBuildings( limit: 200) {\r\n    items {\r\n      id\r\n      name\r\n      isDeleted\r\n      aggregateManualHandles\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchAllPropertysets",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query Search {\r\n  searchAllPropertySets( limit: 50) {\r\n    items {\r\n      id\r\n      name\r\n      isDeleted \r\n      aggregateManualHandles\r\n      defaultManualHandles\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchAllProperties",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query Search {\r\n  searchAllProperties( aggregates: {field: isDeleted, name: \"false\", type: cardinality}) {\r\n    items {\r\n      id\r\n      name\r\n      isDeleted\r\n      manualHandles\r\n      \r\n     \r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchAllFloor",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query search \r\n{\r\nsearchAllFloors( aggregates: {field: updatedAt, type: cardinality, name: \"2023-11-24T08:45:53.583Z\"}) {\r\n    items {\r\n      id\r\n      name\r\n      isDeleted\r\n      aggregateManualHandles\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchAllSpaces",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query search \r\n{\r\nsearchAllSpaces( limit: 100) {\r\n    items {\r\n      id\r\n      name\r\n      isDeleted\r\n      aggregateManualHandles\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchAllAssetTypes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query search \r\n{\r\nsearchAllAssetTypes( limit: 100) {\r\n    items {\r\n      id\r\n      name\r\n      isDeleted\r\n      aggregateManualHandles\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchAllSystems",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query search \r\n{\r\nsearchAllSystems( limit: 200) {\r\n    items {\r\n      id\r\n      name\r\n      isDeleted\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchAllAssets",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query search \r\n{\r\nsearchAllAssets( limit: 100) {\r\n    items {\r\n      id\r\n      name\r\n      isDeleted\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchPropertyIndex",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Scheduled Email Id\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"   for(var i=0;i<jsonData.data.searchPropertyReports.items.length;i++)\r",
+									"   {\r",
+									"    console.log(jsonData.data.searchPropertyReports.items[i].assignedToOrganisationId);\r",
+									"   }\r",
+									" }\r",
+									" );"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query TestPropertyReportsQuery {\r\n  searchPropertyReports(\r\n    input: {\r\n      projectIds: [\r\n        \"{{PROID}}\" \r\n      ]\r\n    },\r\n    filter:{\r\n     buildingId: {\r\n            eq:\"{{bldgid}}\"\r\n        }\r\n    }\r\n    aggregates: {\r\n      field: propertySetName , \r\n      name: \"PropertySetIds\", \r\n      type: cardinality\r\n    }\r\n  ) {\r\n    aggregateItems {\r\n      name\r\n      result {\r\n        ... on SearchableAggregateScalarResult { \r\n          __typename\r\n          value\r\n        }\r\n        ... on SearchableAggregateBucketResult { \r\n          __typename\r\n          buckets {\r\n            doc_count\r\n            key\r\n          }\r\n        }\r\n      }\r\n    }\r\n    items {\r\n      id\r\n      name\r\n      description\r\n      type\r\n      value\r\n      isRequired\r\n      isComplete\r\n      manualHandles\r\n      propertySetId\r\n      propertySetName\r\n      propertySetDescription\r\n      assignedToOrganisationId\r\n      progressPercentage\r\n      objectId\r\n      objectType\r\n      objectName\r\n      objectDescription\r\n      projectId\r\n      buildingId\r\n      floorId\r\n      spaceId\r\n      systemId\r\n      updatedAt\r\n      createdAt\r\n    \r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Progressdial",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query SearchPropertyReports {\r\n  searchPropertyReports(input: {projectIds: [\"8f7a0c82-8340-44f2-b039-fd655b3495b3\",\"4229b74d-c3d5-4f3a-a37f-387af520e0ca,\"\"8f7a0c82-8340-44f2-b039-fd655b3495b3\",\"c9dd2591-4aaa-4ea7-885f-322971efe4b2\",\"2fc2cd60-63ae-47ec-ae6e-57017b9514b7\",\"2f5435fa-6066-4e97-9196-23d3b991283a\",\"8831dccc-2934-400f-abfd-bf00debf2e38\",\"8f7a0c82-8340-44f2-b039-fd655b3495b3\",\"7b6026f5-fd7e-4eda-ad87-ed02e9e68d9f\",\"bdbf840d-09cb-41d3-8109-a64d9311c782\",\"7d50e45e-3ec0-41bf-9927-398745f316a2\",\"8f3312d8-6d57-43c5-8271-56f1da5b4cc4\",\"c19d117a-3766-4038-8f1f-06db008bf692\",\"52ebc45d-c940-47d9-89e4-9a6b743f38c5\",\"3399b476-b826-4188-851b-9054622f7446\"\r\n  ]}, filter: {progressPercentage: {eq: 50}}) {\r\n    items {\r\n      id\r\n      manualHandles\r\n      progressPercentage\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Assignedtoorganisation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query SearchPropertyReports {\r\n  searchPropertyReports(input: {projectIds: [\"8f7a0c82-8340-44f2-b039-fd655b3495b3\"]}, filter:{assignedToOrganisationId:{eq:\"3c1983d0-1ed6-4414-890b-2bf41656d36d\"}}) \r\n  {\r\n    items {\r\n      id\r\n      manualHandles\r\n      assignedToOrganisationId\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "ManualHandles",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query SearchPropertyReports {\r\n  searchPropertyReports(input: {projectIds: [\"8f7a0c82-8340-44f2-b039-fd655b3495b3\",\"4229b74d-c3d5-4f3a-a37f-387af520e0ca,\"\"8f7a0c82-8340-44f2-b039-fd655b3495b3\",\"c9dd2591-4aaa-4ea7-885f-322971efe4b2\",\"2fc2cd60-63ae-47ec-ae6e-57017b9514b7\",\"2f5435fa-6066-4e97-9196-23d3b991283a\",\"8831dccc-2934-400f-abfd-bf00debf2e38\",\"8f7a0c82-8340-44f2-b039-fd655b3495b3\",\"7b6026f5-fd7e-4eda-ad87-ed02e9e68d9f\",\"bdbf840d-09cb-41d3-8109-a64d9311c782\",\"7d50e45e-3ec0-41bf-9927-398745f316a2\",\"8f3312d8-6d57-43c5-8271-56f1da5b4cc4\",\"c19d117a-3766-4038-8f1f-06db008bf692\",\"52ebc45d-c940-47d9-89e4-9a6b743f38c5\",\"3399b476-b826-4188-851b-9054622f7446\"]}, filter:{manualHandles:{eq:\"operations_and_maintenance\"}}) \r\n  {\r\n    items {\r\n      id\r\n      manualHandles\r\n      assignedToOrganisationId\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "objecttype",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query SearchPropertyReports {\r\n  searchPropertyReports(input: {projectIds: [\"8f7a0c82-8340-44f2-b039-fd655b3495b3\",\"4229b74d-c3d5-4f3a-a37f-387af520e0ca,\"\"8f7a0c82-8340-44f2-b039-fd655b3495b3\",\"c9dd2591-4aaa-4ea7-885f-322971efe4b2\",\"2fc2cd60-63ae-47ec-ae6e-57017b9514b7\",\"2f5435fa-6066-4e97-9196-23d3b991283a\",\"8831dccc-2934-400f-abfd-bf00debf2e38\",\"8f7a0c82-8340-44f2-b039-fd655b3495b3\",\"7b6026f5-fd7e-4eda-ad87-ed02e9e68d9f\",\"bdbf840d-09cb-41d3-8109-a64d9311c782\",\"7d50e45e-3ec0-41bf-9927-398745f316a2\",\"8f3312d8-6d57-43c5-8271-56f1da5b4cc4\",\"c19d117a-3766-4038-8f1f-06db008bf692\",\"52ebc45d-c940-47d9-89e4-9a6b743f38c5\",\"3399b476-b826-4188-851b-9054622f7446\"]}, filter:{objectName:{eq:\"Building A wing\"}}) \r\n  {\r\n    items {\r\n      id\r\n      manualHandles\r\n      objectName\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchEntities",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query MyQuery {\r\n  searchEntities(input: {projectIds: [\"4229b74d-c3d5-4f3a-a37f-387af520e0ca\"], query: \"newblg\"}, filter: {type: Building}) {\r\n    total\r\n    nextToken\r\n    items {\r\n      attachmentId\r\n      createdAt\r\n      description\r\n      id\r\n      name\r\n      projectId\r\n      propertyId\r\n      propertySetId\r\n      type\r\n      updatedAt\r\n    }\r\n  }\r\n  }\r\n \r\n",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchMultiproject",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query MyQuery {\r\n  searchPropertyReports(input: {projectIds: [\"4229b74d-c3d5-4f3a-a37f-387af520e0ca,\"\"8f7a0c82-8340-44f2-b039-fd655b3495b3\",\"c9dd2591-4aaa-4ea7-885f-322971efe4b2\",\"2fc2cd60-63ae-47ec-ae6e-57017b9514b7\",\"2f5435fa-6066-4e97-9196-23d3b991283a\",\"8831dccc-2934-400f-abfd-bf00debf2e38\",\"8f7a0c82-8340-44f2-b039-fd655b3495b3\",\"7b6026f5-fd7e-4eda-ad87-ed02e9e68d9f\",\"bdbf840d-09cb-41d3-8109-a64d9311c782\",\"7d50e45e-3ec0-41bf-9927-398745f316a2\",\"8f3312d8-6d57-43c5-8271-56f1da5b4cc4\",\"c19d117a-3766-4038-8f1f-06db008bf692\",\"52ebc45d-c940-47d9-89e4-9a6b743f38c5\",\"3399b476-b826-4188-851b-9054622f7446\",\"8cc71fc9-70e8-464c-9c8a-a3e7fa94d265\", \"229971d7-7efe-446b-9f8b-a276300deed2\", \"7f945a46-0dbd-453d-9896-d4769c4e39a7\", \"63bae69d-4437-498d-be89-f0a011138296\", \"9c2bf080-de60-45f9-ab4a-1d04ee75459d\"]}, aggregates: [{field: propertySetId, type: terms, name: \"Agg\"}, {field: buildingId, type: terms, name: \"build\"}], filter: {and: {assignedToOrganisationId: {eq: \"3c1983d0-1ed6-4414-890b-2bf41656d36d\"}}}) {\r\n    nextToken\r\n    total\r\n    aggregateItems {\r\n      name\r\n      result {\r\n        ... on SearchableAggregateBucketResult {\r\n          __typename\r\n          buckets {\r\n            doc_count\r\n            key\r\n          }\r\n        }\r\n      }\r\n    }\r\n    items {\r\n      buildingId\r\n      propertySetId\r\n      projectId\r\n      progressPercentage\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Properties",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query SearchProperties($input: SearchableEntityInput!, $filter: SearchablePropertyFilterInput, $sort: [SearchablePropertySortInput], $limit: Int, $nextToken: String, $from: Int) {\r\n  searchProperties(input: $input, filter: $filter, sort: $sort, limit: $limit, nextToken: $nextToken, from: $from) {\r\n    items {\r\n      id\r\n      name\r\n      description\r\n      type\r\n      unit\r\n      value\r\n      permittedValues\r\n      isRequired\r\n      isComplete\r\n      manualHandles\r\n      propertySetId\r\n      projectId\r\n      createdAt\r\n      updatedAt\r\n    }\r\n    nextToken\r\n    total\r\n  }\r\n}\r\n",
+								"variables": "{\r\n  \"input\": {\r\n    \"projectIds\": [\r\n      \"4229b74d-c3d5-4f3a-a37f-387af520e0ca\"\r\n    ]\r\n  },\r\n  \"limit\": null,\r\n  \"nextToken\": null,\r\n  \"filter\": {\r\n    \"propertySetId\": {\r\n      \"eq\": \"671c6037-f684-4d35-aa93-992e499a89d1\"\r\n    }\r\n  },\r\n  \"sort\": [\r\n    {\r\n      \"field\": \"name\",\r\n      \"direction\": \"asc\"\r\n    }\r\n  ]\r\n}"
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchAllZones",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query search \r\n{\r\nsearchAllZones( limit: 100) {\r\n    items {\r\n      id\r\n      name\r\n    \r\n      aggregateManualHandles\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchPropertyReport",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query searchPropertyReports\r\n{\r\nsearchPropertyReports(input: {projectIds: \"c50801db-01fc-41f7-ac45-26f77acda778\"}, aggregates: {field: updatedAt, type: cardinality, name: \"true\"}) {\r\n    nextToken\r\n    total\r\n    \r\n  }\r\n}\r\n",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Projects",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query search\r\n{\r\nsearchProjects(aggregates: {field: isDeleted, name: \"false\", type: cardinality}){\r\n    items {\r\n      id\r\n      isDeleted\r\n    }\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": {
+					"token": "{{Authtoken}}"
+				}
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Email",
+			"item": [
+				{
+					"name": "CreateEmail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Scheduled Email Id\", function () {\r",
+									"   var jsonData = pm.response.json();\r",
+									"    console.log(jsonData.data.createScheduledEmail.id);\r",
+									" }\r",
+									" );\r",
+									"\r",
+									" pm.test(\"Created Scheduled Email Id\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									" pm.globals.set(\"EmailId\", jsonData.data.createScheduledEmail.id);\r",
+									"}\r",
+									" );\r",
+									"\r",
+									"pm.test(\"Created Scheduled project Id\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									" pm.globals.set(\"projectId1\", jsonData.data.createScheduledEmail.projectId);\r",
+									"}\r",
+									" );"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation Create {\r\n  createScheduledEmail(input: {projectId: \"ee41ac49-d726-4aad-bf9b-e8d6558716b7\", day:friday, frequency: monthly}) {\r\n    id\r\n    day\r\n    frequency\r\n    nextTimeToSend\r\n    projectId\r\n    updatedAt\r\n    updatedByUserId\r\n    createdAt\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateEmail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation Update {\r\n  updateScheduledEmail(input: {id: \"{{EmailId}}\", projectId: \"{{projectId1}}\", day: monday, frequency: monthly}) {\r\n    id\r\n    day\r\n    frequency\r\n    nextTimeToSend\r\n    projectId\r\n    updatedAt\r\n    updatedByUserId\r\n    createdAt\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchEmail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query Search {\r\n  searchScheduledEmails(input: {projectIds: [\"c9dd2591-4aaa-4ea7-885f-322971efe4b2\"]}) {\r\n    items {\r\n      id\r\n      day\r\n      frequency\r\n      nextTimeToSend\r\n      projectId\r\n      updatedAt\r\n      updatedByUserId\r\n      createdAt\r\n    }\r\n    total\r\n    nextToken\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteEmail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation Delete {\r\n  deleteScheduledEmail(input: {id: \"{{EmailId}}\", projectId: \"{{projectId1}}\"}) {\r\n    id\r\n    day\r\n    frequency\r\n    nextTimeToSend\r\n    projectId\r\n    updatedAt\r\n    updatedByUserId\r\n    createdAt\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateReport",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "  mutation CreateReportRequest{\r\n    createReportRequest(\r\n      input: {\r\n        projectId: \"4229b74d-c3d5-4f3a-a37f-387af520e0ca\",\r\n        buildingId: \"a5da2d37-49b5-4162-a70b-7c7bf2ae8358\", \r\n        reportType: BuildingManualProgressReporting, \r\n        requestedByUserId: \"cfac72d7-72df-4a6a-89e9-6cb5c3381adb\", \r\n        parameters: \"{\\\"format\\\":\\\"pdf\\\",\\\"manualHandle\\\":\\\"key_building_information\\\"}\"\r\n      }\r\n    )\r\n    {\r\n      id\r\n      reportType\r\n      parameters\r\n      includeOptionalItems\r\n      projectId\r\n      requestedByUserId\r\n      requestedAt\r\n      createdAt\r\n      updatedAt\r\n    }\r\n  }\r\n",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SSO ",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation MyMutation {\r\n  saveMetadataUrl(input: {metadataUrl: \"https://login.microsoftonline.com/6ba9dbb6-8e77-4704-a8a5-456ea191784d/federationmetadata/2007-06/federationmetadata.xml?appid=56d1c529-8b83-49b2-94cd-93648c35c667\"}) {\r\n    ssoUrl\r\n    metadataUrl\r\n  }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GoldenAI",
+			"item": [
+				{
+					"name": "Search Conversation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" pm.test(\"Conversation Id\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    console.log(\"id\",jsonData.data.searchGoldenaiConversations.items[0].id)\r",
+									"    \r",
+									"    pm.globals.set(\"ConvId\", jsonData.data.searchGoldenaiConversations.items[0].id);\r",
+									"}\r",
+									" );\r",
+									"\r",
+									"pm.test(\"name of conversation\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"        console.log(\"name of conversation\", jsonData.data.searchGoldenaiConversations.items[0].name);    \r",
+									"}\r",
+									");\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": " query searchGoldenaiConversations{\r\n searchGoldenaiConversations(\r\n      input: { projectIds: \"{{PROID}}\" }\r\n    ) {\r\n      items {\r\n        id\r\n        name\r\n        buildingId\r\n        building {\r\n          id\r\n          modelGuid\r\n          name\r\n          description\r\n          reference\r\n          floors\r\n          projectId\r\n          dataTemplateId\r\n          assignedOrganisationIds\r\n          assignedPercent\r\n          aggregateManualHandles\r\n          manualHandles\r\n          isDeleted\r\n          createdAt\r\n          updatedAt\r\n        }\r\n        projectId\r\n        project {\r\n          id\r\n          title\r\n          reference\r\n          sector\r\n          budget\r\n          floors\r\n          clientId\r\n          owningOrganisationId\r\n          dutyHolderId\r\n          createdById\r\n          changeComment\r\n          isComplete\r\n          scheduledEmailId\r\n          allowVerification\r\n          completedAt\r\n          completedById\r\n          isDeleted\r\n          createdAt\r\n          updatedAt\r\n        }\r\n        userId\r\n        user {\r\n          id\r\n          idpId\r\n          email\r\n          firstName\r\n          lastName\r\n          phoneNumber\r\n          officePhoneNumber\r\n          role\r\n          status\r\n          organisationId\r\n          isDeleted\r\n          lastLogin\r\n          termsAgreedDate\r\n          createdAt\r\n          updatedAt\r\n        }\r\n        dialogues {\r\n          nextToken\r\n        }\r\n        createdAt\r\n        updatedAt\r\n      }\r\n      nextToken\r\n      total\r\n    }\r\n }",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				},
+				{
+					"name": "SearchConversationDialogues",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"prompt of conversation\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"        console.log(\"prompt of conversation\", jsonData.data.searchGoldenaiDialoguesByGoldenaiConversationId.items[0].prompt);    \r",
+									"}\r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{Authtoken}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query goldenaiConversationId\r\n{\r\nsearchGoldenaiDialoguesByGoldenaiConversationId(\r\n      goldenaiConversationId: \"{{ConvId}}\"\r\n    ) {\r\n      items {\r\n        id\r\n        prompt\r\n        response\r\n        sourceDocuments {\r\n          id\r\n          title\r\n          url\r\n          attachmentId\r\n          propertyId\r\n          propertySetId\r\n          objectId\r\n          objectType\r\n        }\r\n        metadata\r\n        goldenaiConversationId\r\n        goldenaiConversation {\r\n          id\r\n          name\r\n          buildingId\r\n          projectId\r\n          userId\r\n          createdAt\r\n          updatedAt\r\n        }\r\n        createdAt\r\n        updatedAt\r\n      }\r\n      nextToken\r\n      total\r\n    }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": "{{url}}"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": {
+			"addTokenTo": "header"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
